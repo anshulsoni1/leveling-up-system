@@ -1,0 +1,33 @@
+<div class="hud-grid-wrapper">
+  <!-- Level Up Overlay -->
+  <app-levelup-overlay 
+    *ngIf="levelUpData()"
+    [previousLevel]="levelUpData()!.previous"
+    [currentLevel]="levelUpData()!.current"
+    [rank]="levelUpData()!.rank"
+    (close)="levelUpData.set(null)">
+  </app-levelup-overlay>
+  
+  <!-- Header Panel (Global for System) -->
+  <div class="hud-panel system-header">
+    <div class="header-main">
+      <h1 class="system-title glow-pulse">SYSTEM ACTIVE</h1>
+      <app-rank-badge [rank]="rank()"></app-rank-badge>
+    </div>
+    <div class="user-meta">
+      <div class="user-info">
+        <span class="system-label">PLAYER</span>
+        <span class="system-value name">{{ userName() }}</span>
+      </div>
+      <div class="level-info">
+        <span class="system-label">LVL</span>
+        <span class="system-value level">{{ level() }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="hud-grid-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

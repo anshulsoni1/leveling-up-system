@@ -1,0 +1,24 @@
+<div class="landing-overlay">
+
+
+  <app-glitch-text text="PLAYER DETECTED" [speed]="0.6" [enableShadows]="true" [enableOnHover]="false"
+      class="system-status glitch-strong"></app-glitch-text>
+
+  <div class="landing-content" [style.transform]="parallaxTransform">
+    
+
+
+    <div class="hero">
+      <h1 class="sys-title has-energy-sweep" [style.text-shadow]="titleGlow">S O L O - L E V E L I N G</h1>
+      <h2 class="sys-subtitle">S Y S T E M U I</h2>
+      <div class="actions">
+        <button #sysBtn class="sys-btn primary interactive-btn" [class.hovered]="isBtnHovered"
+          [style.transform]="btnTransform" [style.--x.%]="btnHoverX" [style.--y.%]="btnHoverY"
+          (mousemove)="onBtnMouseMove($event)" (mouseenter)="onBtnMouseEnter()" (mouseleave)="onBtnMouseLeave()"
+          (click)="enterSystem($event)">
+          Enter System
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

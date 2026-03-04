@@ -1,0 +1,201 @@
+@use '../../../shared/styles/system-theme' as *;
+
+.dashboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// MODULES GRID
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.module-card {
+  position: relative;
+  cursor: pointer;
+  padding: 1.5rem;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba($neon-cyan, 0.1), transparent);
+    z-index: 0;
+  }
+
+  &:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: $neon-cyan;
+    box-shadow: $glow-strong, inset 0 0 20px rgba($neon-cyan, 0.1);
+    
+    .enter-hint {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .card-glow {
+      opacity: 0.6;
+    }
+  }
+}
+
+.card-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba($neon-cyan, 0.15) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.module-info {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.module-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.4rem;
+  color: $neon-cyan;
+  margin-bottom: 0.8rem;
+  letter-spacing: 2px;
+  text-shadow: $glow-soft;
+}
+
+.module-desc {
+  font-size: 0.95rem;
+  color: $text-secondary;
+  line-height: 1.4;
+  margin-bottom: 1.5rem;
+}
+
+.module-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.streak-badge {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.enter-hint {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: $neon-cyan;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+// ACTIVE TASKS SECTION
+.active-tasks-section {
+  padding: 2rem;
+  background: rgba($bg-deep, 0.4);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid $grid-line;
+  padding-bottom: 0.8rem;
+
+  .panel-title {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}
+
+.add-quest-btn {
+  background: transparent;
+  border: 1px solid $neon-cyan;
+  color: $neon-cyan;
+  padding: 0.6rem 1.2rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  background: rgba($neon-cyan, 0.05);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba($neon-cyan, 0.2);
+    box-shadow: $glow-soft;
+  }
+}
+
+.quests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  border: 1px dashed rgba($neon-cyan, 0.2);
+  background: rgba($bg-deep, 0.2);
+}
+
+.create-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+

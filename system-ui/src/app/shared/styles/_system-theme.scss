@@ -1,0 +1,41 @@
+// Color Tokens (SCSS variables)
+$bg-void: #04070d;
+$bg-deep: #02050a;
+$panel-dark: rgba(10, 18, 32, 0.65);
+$panel-glass: rgba(18, 30, 55, 0.45);
+
+$neon-cyan: #00eaff;
+$neon-blue: #2f7bff;
+$neon-glow: rgba(0, 234, 255, 0.6);
+
+$text-primary: #e9f6ff;
+$text-secondary: #9fb7d6;
+$text-dim: #6f89a8;
+
+$border-neon: rgba(0, 234, 255, 0.7);
+$grid-line: rgba(0, 234, 255, 0.15);
+
+$glow-strong: 0 0 18px rgba(0, 234, 255, 0.85);
+$glow-soft: 0 0 10px rgba(0, 234, 255, 0.45);
+
+// Animation Tokens
+@keyframes glow-pulse {
+  0% { box-shadow: $glow-soft; }
+  50% { box-shadow: $glow-strong; }
+  100% { box-shadow: $glow-soft; }
+}
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes energy-fade {
+  0% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+@keyframes hologram-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  20%, 24%, 55% { opacity: 0.5; }
+}

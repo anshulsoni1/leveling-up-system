@@ -1,0 +1,57 @@
+@use 'system-theme' as *;
+
+// Global Background
+html, body {
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  /* overflow: hidden; Removed to fix scrolling */
+  background-color: #000000;
+  color: $text-primary;
+  min-height: 100vh;
+}
+
+// HUD Panel Style
+.hud-panel {
+  background-color: $panel-dark;
+  border: 1px solid $border-neon;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  padding: 1rem;
+  box-shadow: $glow-soft;
+}
+
+.hud-panel-glow {
+  @extend .hud-panel;
+  animation: glow-pulse 3s infinite alternate;
+}
+
+.hud-border {
+  border: 1px solid $border-neon;
+  box-shadow: inset $glow-soft;
+}
+
+.hud-grid {
+
+
+}
+
+// Glow & Neon Utilities
+.glow-text {
+  color: $neon-cyan;
+  text-shadow: 0 0 8px $neon-glow;
+}
+
+.glow-border {
+  border-color: $neon-cyan;
+  box-shadow: $glow-soft;
+}
+
+.glow-strong {
+  box-shadow: $glow-strong;
+}
+
+.glow-pulse {
+  animation: glow-pulse 2s infinite alternate ease-in-out;
+}
+

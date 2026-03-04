@@ -1,0 +1,249 @@
+@use '../../../shared/styles/system-theme' as *;
+
+.hud-grid-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+  
+
+}
+
+.ml-2 { margin-left: 0.5rem; }
+
+// Ensure universal spacing
+.panel-title {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid $grid-line;
+  padding-bottom: 0.5rem;
+}
+
+.text-small {
+  font-size: 1.1rem !important;
+}
+
+// HEADER
+.system-header {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: $neon-cyan;
+    box-shadow: $glow-strong;
+  }
+}
+
+.system-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  width: 100%;
+}
+
+.level-box {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba($neon-blue, 0.1);
+  border-radius: 4px;
+  border: 1px solid rgba($neon-cyan, 0.3);
+}
+
+
+// MAIN GRID - Now used as a container for routed components
+.hud-grid-content {
+  display: block;
+  width: 100%;
+  max-width: 1200px;
+}
+
+// STATS (Moved to components if used in future, keeping for reference)
+.stats-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.stat-card {
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba($bg-deep, 0.6);
+  border-radius: 4px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(10px);
+  position: relative;
+  border: 1px solid rgba($neon-cyan, 0.1);
+
+  &:hover {
+    box-shadow: $glow-soft, inset 0 0 15px rgba($neon-cyan, 0.1);
+    background: rgba($neon-blue, 0.15);
+    transform: translateY(-5px);
+    border-color: $neon-cyan;
+  }
+}
+
+// QUESTS (Styling remains here for quest-item component if it relies on global styles)
+.quests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.quest-card {
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba($bg-deep, 0.5);
+  border-left: 3px solid $neon-cyan;
+  
+  &:hover {
+    background: rgba($neon-cyan, 0.05);
+  }
+}
+
+.quest-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.quest-status {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  
+  &.pending { color: $text-secondary; border: 1px solid $text-dim; }
+  &.in-progress { color: $neon-cyan; border: 1px solid $neon-cyan; box-shadow: $glow-soft; }
+  &.complete { color: #00ff88; border: 1px solid #00ff88; text-shadow: 0 0 5px rgba(0,255,136,0.5); }
+}
+
+// PROGRESS
+.progress-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.prog-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.xp-bar-container {
+  flex-grow: 1;
+  height: 12px;
+  background: $bg-deep;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.xp-bar {
+  height: 100%;
+  background: linear-gradient(90deg, $neon-blue, $neon-cyan);
+  box-shadow: 0 0 10px $neon-cyan;
+}
+
+.stats-summary {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.summary-box {
+  flex: 1;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0, 150, 255, 0.05);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid $grid-line;
+  padding-bottom: 0.5rem;
+
+  .panel-title {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}
+
+.add-quest-btn {
+  background: transparent;
+  border: 1px solid $neon-cyan;
+  color: $neon-cyan;
+  padding: 1.5rem; // Adjusted padding for layout if needed
+  padding: 0.5rem 1rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  cursor: pointer;
+  background: rgba($neon-cyan, 0.05);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba($neon-cyan, 0.2);
+    box-shadow: $glow-soft;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  border: 1px dashed rgba($neon-cyan, 0.2);
+}
+
+.create-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
