@@ -1,3 +1,26 @@
+.spline-bg {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+}
+
+.intro-content {
+  position: relative;
+  z-index: 2;
+}
+
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    rgba(2, 5, 10, 0.55),
+    rgba(2, 5, 10, 0.85)
+  );
+  z-index: 1;
+}
+
 
 
 .landing-overlay {
@@ -5,7 +28,7 @@
   inset: 0;
   width: 100vw;
   height: 100vh;
-  background: #000000;
+  background: transparent;
   z-index: 9999;
   display: flex;
   align-items: center;
