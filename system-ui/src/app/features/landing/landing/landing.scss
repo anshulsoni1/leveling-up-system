@@ -4,6 +4,7 @@
   width: 100vw;
   height: 100vh;
   z-index: 0;
+  pointer-events: auto;
 }
 
 .intro-content {
@@ -19,6 +20,7 @@
     rgba(2, 5, 10, 0.85)
   );
   z-index: 1;
+  pointer-events: none;
 }
 
 
@@ -33,7 +35,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: auto;
+  pointer-events: none;
   perspective: 1200px;
 }
 
