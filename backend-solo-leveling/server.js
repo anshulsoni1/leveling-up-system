@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGO_URI)
   .catch(err => console.error("MongoDB Error:", err));
 
 app.get('/test', (req, res) => {
-  res.send("Backend running on Render");
+  res.send("Backend working");
 });
 
 app.use('/api/health', healthRoute);
