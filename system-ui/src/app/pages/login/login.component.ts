@@ -41,8 +41,9 @@ export class LoginComponent {
 
     obs$.subscribe({
       next: () => {
+        console.log('Login successful! Token saved intercepting requests.');
         this.isLoading = false;
-        this.router.navigate(['/intro']);
+        this.router.navigate(['/system/dashboard']);
       },
       error: (err) => {
         this.isLoading = false;

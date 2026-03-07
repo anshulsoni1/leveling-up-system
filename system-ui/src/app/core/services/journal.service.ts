@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class JournalService {
-  private apiUrl = 'https://solo-leveling-system-mkkd.onrender.com/api/journal';
+  private apiUrl = 'https://leveling-up-system-1.onrender.com/api/journal';
 
   constructor(private http: HttpClient) {}
 

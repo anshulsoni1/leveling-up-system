@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AchievementService {
-  private apiUrl = 'https://solo-leveling-system-mkkd.onrender.com/api/achievements';
+  private apiUrl = 'https://leveling-up-system-1.onrender.com/api/achievements';
   
   private achievementsCache = new BehaviorSubject<any[]>([]);
   achievements$ = this.achievementsCache.asObservable();

@@ -7,7 +7,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class DsaService {
-  private apiUrl = 'https://solo-leveling-system-mkkd.onrender.com/api/dsa';
+  private apiUrl = 'https://leveling-up-system-1.onrender.com/api/dsa';
 
   constructor(private http: HttpClient, private achievementService: AchievementService) {}
 

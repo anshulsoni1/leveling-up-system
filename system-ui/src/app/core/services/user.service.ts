@@ -7,7 +7,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'https://solo-leveling-system-mkkd.onrender.com/api/user';
+  private apiUrl = 'https://leveling-up-system-1.onrender.com/api/user';
 
   constructor(private http: HttpClient, private achievementService: AchievementService) {}
 

@@ -7,7 +7,7 @@ import { Observable, BehaviorSubject, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class ActivityService {
-  private apiUrl = 'https://solo-leveling-system-mkkd.onrender.com/api/activity';
+  private apiUrl = 'https://leveling-up-system-1.onrender.com/api/activity';
 
   // We can cache this to prevent aggressive querying if needed!
   private activitiesCache = new BehaviorSubject<any>(null);

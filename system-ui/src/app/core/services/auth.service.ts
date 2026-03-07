@@ -6,7 +6,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://solo-leveling-system-mkkd.onrender.com/api/auth';
+  private apiUrl = 'https://leveling-up-system-1.onrender.com/api/auth';
 
   constructor(private http: HttpClient) {}
 
