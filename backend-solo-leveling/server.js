@@ -12,6 +12,7 @@ const journalRoutes = require('./routes/journal.route');
 const activityRoutes = require('./routes/activity.route');
 const achievementRoutes = require('./routes/achievement.route');
 const moduleRoutes = require('./routes/module.routes');
+const questRoutes = require('./routes/quest.routes');
 const moduleLogRoutes = require('./routes/moduleLog.routes');
 dotenv.config();
 const app = express();
@@ -35,6 +36,7 @@ app.use('/api/journal', journalRoutes);
 app.use('/api/activity', activityRoutes);
 app.use('/api/achievements', achievementRoutes);
 app.use('/api/modules', moduleRoutes);
+app.use('/api/quests', questRoutes);
 app.use('/api/module-logs', moduleLogRoutes);
 
 console.log("\n--- Registered Routes ---");
