@@ -1,6 +1,7 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { UserService } from '../../../core/services/user.service';
 import { ModuleService } from '../../../core/services/module.service';
+import { XpEngineService } from '../../../core/services/xp-engine.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SystemStateService, QuestType, QuestDifficulty } from '../../../shared/services/system-state.service';
@@ -39,6 +40,7 @@ export class SystemDashboard implements OnInit {
   private userService = inject(UserService);
 
   private moduleService = inject(ModuleService);
+  xpEngine = inject(XpEngineService);
 
   quests = this.stateService.quests;
   customModules = signal<any[]>([]);
@@ -52,6 +54,7 @@ export class SystemDashboard implements OnInit {
         const msPerDay = 1000 * 60 * 60 * 24;
         const inactiveDays = res.lastActiveDate ? Math.floor((Date.now() - new Date(res.lastActiveDate).getTime()) / msPerDay) : 0;
         this.bossService.checkAndSpawnBoss(inactiveDays);
+        this.xpEngine.checkDangerMode(inactiveDays);
       }
     });
 

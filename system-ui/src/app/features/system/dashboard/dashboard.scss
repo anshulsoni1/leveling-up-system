@@ -199,3 +199,33 @@
   to { opacity: 1; }
 }
 
+
+.danger-warning {
+  background: rgba(40, 0, 0, 0.8);
+  border: 2px solid #ff0000;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  color: #ff3333;
+  font-weight: 800;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.3), inset 0 0 20px rgba(255, 0, 0, 0.2);
+  animation: dangerPulse 2s infinite alternate;
+  font-family: 'Rajdhani', sans-serif;
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.8);
+}
+.danger-subtext {
+  font-size: 0.9rem;
+  color: #ffaaaa;
+  font-weight: 600;
+  text-shadow: none;
+  display: block;
+  margin-top: 4px;
+}
+@keyframes dangerPulse {
+  0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.1), inset 0 0 10px rgba(255, 0, 0, 0.1); border-color: #aa0000; }
+  100% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.6), inset 0 0 30px rgba(255, 0, 0, 0.4); border-color: #ff3333; }
+}
