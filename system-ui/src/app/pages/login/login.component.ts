@@ -43,7 +43,7 @@ export class LoginComponent {
       next: () => {
         console.log('Login successful! Token saved intercepting requests.');
         this.isLoading = false;
-        this.router.navigate(['/system/dashboard']);
+        this.router.navigate(['/system']);
       },
       error: (err) => {
         this.isLoading = false;
