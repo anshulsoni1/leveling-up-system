@@ -44,9 +44,6 @@ export class ModulePageComponent implements OnInit {
 
       // 2. Load logs
       this.loadLogs();
-        
-        // Deal Boss Damage if active
-        this.bossService.dealDamage(50);
     }
   }
 
@@ -127,6 +124,17 @@ export class ModulePageComponent implements OnInit {
       next: () => {
         // reload logs upon success
         this.loadLogs();
+        
+        // Deal Boss Damage if active
+        this.bossService.dealDamage(50);
+        
+        // Refetch module to update local XP display without breaking old flow
+        this.moduleService.getModules().subscribe((res: any[]) => {
+          if (res) {
+            const m = res.find((x: any) => x._id === this.moduleId);
+            if (m) this.module.set(m);
+          }
+        });
         
         // Broadcast XP update
         this.userService.updateXP(xp).subscribe({

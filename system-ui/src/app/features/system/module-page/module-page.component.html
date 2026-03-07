@@ -6,7 +6,7 @@
         <span class="module-icon">{{ module()?.icon }}</span>
         {{ module()?.name | uppercase }}
       </h1>
-      <p class="system-desc" *ngIf="module()">CATEGORY: {{ module()?.category | uppercase }} | MODE: {{ module()?.trackingType | uppercase }}</p>
+      <p class="system-desc" *ngIf="module()">CATEGORY: {{ module()?.category | uppercase }} | MODE: {{ module()?.trackingType | uppercase }} | XP: {{ module()?.xp || 0 }}</p>
     </div>
 
     <!-- Controls -->
