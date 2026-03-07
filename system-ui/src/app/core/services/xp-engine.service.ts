@@ -24,9 +24,16 @@ export class XpEngineService {
     return Math.floor(baseXP * streakMultiplier * disciplineMultiplier);
   }
 
+  checkDangerMode(inactiveDays: number): boolean {
+    return inactiveDays >= 7;
+  }
+
   applyDecay(xp: number, inactiveDays: number): number {
-    if (inactiveDays < 3) return xp;
-    if (inactiveDays === 3) return xp;
+    if (this.checkDangerMode(inactiveDays)) {
+      return Math.floor(xp * (1 - 0.08)); // 8% decay in danger mode
+    }
+
+    if (inactiveDays <= 3) return xp;
 
     let decayRate = 0;
     if (inactiveDays === 4) {

@@ -1,6 +1,8 @@
 <div class="dashboard-wrapper">
   <!-- Module Cards Grid -->
-  <div class="modules-grid">
+  <app-boss-panel></app-boss-panel>
+      
+      <div class="modules-grid">
     <div *ngFor="let module of modules()" 
          class="hud-panel module-card glow-hover"
          [routerLink]="module.route">

@@ -35,6 +35,7 @@ interface ModuleCard {
 })
 export class SystemDashboard implements OnInit {
   private stateService = inject(SystemStateService);
+  private bossService = inject(BossService);
   private userService = inject(UserService);
 
   private moduleService = inject(ModuleService);
@@ -46,6 +47,11 @@ export class SystemDashboard implements OnInit {
     this.userService.getMe().subscribe((res: any) => {
       if (res) {
         this.stateService.setStateFromApi(res);
+        
+        // Setup Boss spawn check based on last active
+        const msPerDay = 1000 * 60 * 60 * 24;
+        const inactiveDays = res.lastActiveDate ? Math.floor((Date.now() - new Date(res.lastActiveDate).getTime()) / msPerDay) : 0;
+        this.bossService.checkAndSpawnBoss(inactiveDays);
       }
     });
 

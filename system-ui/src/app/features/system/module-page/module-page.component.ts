@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ModuleService } from '../../../core/services/module.service';
 import { UserService } from '../../../core/services/user.service';
+import { BossService } from '../../../core/services/boss.service';
 import { SystemStateService } from '../../../shared/services/system-state.service';
 import { ModuleHeatmapComponent } from '../../../shared/components/module-layout/heatmap';
 
@@ -17,6 +18,7 @@ export class ModulePageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private moduleService = inject(ModuleService);
   private userService = inject(UserService);
+  private bossService = inject(BossService);
   private stateService = inject(SystemStateService);
 
   moduleId: string = '';
@@ -42,6 +44,9 @@ export class ModulePageComponent implements OnInit {
 
       // 2. Load logs
       this.loadLogs();
+        
+        // Deal Boss Damage if active
+        this.bossService.dealDamage(50);
     }
   }
 
