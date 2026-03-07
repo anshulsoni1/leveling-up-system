@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class XpEngineService {
+
+  isDangerMode = signal<boolean>(false);
 
   constructor() { }
 
@@ -25,7 +27,9 @@ export class XpEngineService {
   }
 
   checkDangerMode(inactiveDays: number): boolean {
-    return inactiveDays >= 7;
+    const danger = inactiveDays >= 7;
+    this.isDangerMode.set(danger);
+    return danger;
   }
 
   applyDecay(xp: number, inactiveDays: number): number {
