@@ -50,6 +50,13 @@ const moduleSchema = new mongoose.Schema({
     type: Number,
     default: 20
   },
+  xp: {
+    type: Number,
+    default: 0
+  },
+  lastActivity: {
+    type: Date
+  },
   createdAt: {
     type: Date,
     default: Date.now

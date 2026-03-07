@@ -30,6 +30,11 @@ const logActivity = async (req, res) => {
       if (note) moduleLog.note = note;
       // Note: We don't typically award XP multiple times per day unless specified
       moduleLog = await moduleLog.save();
+      
+      module.xp = (module.xp || 0) + (module.xpReward || 0);
+      module.lastActivity = new Date();
+      await module.save();
+
       return res.status(200).json(moduleLog);
     } else {
       // Create new log
@@ -45,6 +50,11 @@ const logActivity = async (req, res) => {
       });
       
       const savedLog = await newLog.save();
+      
+      module.xp = (module.xp || 0) + xpAwarded;
+      module.lastActivity = new Date();
+      await module.save();
+
       return res.status(201).json(savedLog);
     }
   } catch (error) {
