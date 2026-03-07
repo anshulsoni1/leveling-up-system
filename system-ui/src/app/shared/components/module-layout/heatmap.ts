@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges, SimpleChanges, Input, inject } from '@angular/core';
 import { ActivityService } from '../../../core/services/activity.service';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
@@ -92,7 +92,8 @@ interface DayActivity {
     }
   `]
 })
-export class ModuleHeatmapComponent implements OnInit, OnDestroy {
+export class ModuleHeatmapComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() heatmapData?: { date: string, count: number }[];
   private activityService = inject(ActivityService);
   days: DayActivity[] = [];
   private sub?: Subscription;
@@ -100,7 +101,13 @@ export class ModuleHeatmapComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router) {}
 
-    ngOnInit() {
+    ngOnChanges(changes: SimpleChanges) {
+    if (changes['heatmapData'] && !changes['heatmapData'].firstChange) {
+      this.updateHeatmap();
+    }
+  }
+
+  ngOnInit() {
     this.detectModule(this.router.url);
     
     this.activityService.getActivity().subscribe(() => {
@@ -189,6 +196,11 @@ export class ModuleHeatmapComponent implements OnInit, OnDestroy {
   }
 
     private getActivityForDate(dateStr: string): number {
+    if (this.heatmapData) {
+       const match = this.heatmapData.find(d => d.date.startsWith(dateStr));
+       return match ? match.count : 0;
+    }
+
     // The actual backend currently returns an array of dates like: { activities: ['2026-03-01'] }
     // Wait, let's grab the cache we setup on the service! It's synchronous if it resolves once.
     let activityCount = 0;

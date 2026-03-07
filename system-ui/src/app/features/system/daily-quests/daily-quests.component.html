@@ -1,0 +1,24 @@
+<!-- Daily Quests Panel -->
+<div class="hud-panel quests-panel">
+  <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0, 234, 255, 0.3); padding-bottom: 1rem;">
+    <h2 class="panel-title" style="margin: 0; font-size: 1.4rem; color: var(--system-cyan); letter-spacing: 2px; display: flex; align-items: center; gap: 0.5rem;">
+      <i class="las la-calendar-check glow-icon"></i> 
+      DAILY QUESTS
+    </h2>
+    <span class="system-dim" style="font-size: 0.9rem;">RESETS MIDNIGHT</span>
+  </div>
+
+  <div class="quests-list">
+    <div *ngFor="let q of quests" class="quest-row" [class.quest-completed]="q.completed">
+      <div class="quest-checkbox">
+        <i class="las" [ngClass]="q.completed ? 'la-check-square system-cyan' : 'la-square system-dim'"></i>
+      </div>
+      <div class="quest-details">
+        <h4 class="quest-title">{{ q.title }}</h4>
+      </div>
+      <div class="quest-reward" [class.reward-claimed]="q.completed">
+        <span class="xp-value">+{{ q.reward }} XP</span>
+      </div>
+    </div>
+  </div>
+</div>

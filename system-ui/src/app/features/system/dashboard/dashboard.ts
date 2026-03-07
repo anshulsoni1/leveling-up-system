@@ -1,10 +1,14 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { UserService } from '../../../core/services/user.service';
+import { ModuleService } from '../../../core/services/module.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SystemStateService, QuestType, QuestDifficulty } from '../../../shared/services/system-state.service';
 import { QuestItemComponent } from '../components/quest-item/quest-item.component';
 import { QuestCreatePanelComponent } from '../components/quest-create-panel/quest-create-panel.component';
+import { CreateModuleComponent } from '../create-module/create-module.component';
+import { ModuleTemplatesComponent } from '../module-templates/module-templates.component';
+import { DailyQuestsComponent } from '../daily-quests/daily-quests.component';
 
 interface ModuleCard {
   id: string;
@@ -21,7 +25,10 @@ interface ModuleCard {
     CommonModule,
     RouterModule,
     QuestItemComponent,
-    QuestCreatePanelComponent
+    QuestCreatePanelComponent,
+    CreateModuleComponent,
+    ModuleTemplatesComponent,
+    DailyQuestsComponent
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
@@ -30,15 +37,26 @@ export class SystemDashboard implements OnInit {
   private stateService = inject(SystemStateService);
   private userService = inject(UserService);
 
+  private moduleService = inject(ModuleService);
+
   quests = this.stateService.quests;
+  customModules = signal<any[]>([]);
+
   ngOnInit() {
     this.userService.getMe().subscribe((res: any) => {
       if (res) {
         this.stateService.setStateFromApi(res);
       }
     });
+
+    this.moduleService.getModules().subscribe((res: any) => {
+      if (res) {
+        this.customModules.set(res);
+      }
+    });
   }
   showCreatePanel = signal(false);
+  showCreateModule = signal(false);
 
   modules = signal<ModuleCard[]>([
     {
@@ -77,5 +95,26 @@ export class SystemDashboard implements OnInit {
     if (typeof id === 'string') {
       this.stateService.toggleQuest(id);
     }
+  }
+
+  createModule() {
+    this.showCreateModule.set(true);
+  }
+
+  onModuleCreated() {
+    this.showCreateModule.set(false);
+    this.reloadModules();
+  }
+
+  onTemplateCreated() {
+    this.reloadModules();
+  }
+
+  reloadModules() {
+    this.moduleService.getModules().subscribe((res: any) => {
+      if (res) {
+        this.customModules.set(res);
+      }
+    });
   }
 }

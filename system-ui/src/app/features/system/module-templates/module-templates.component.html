@@ -1,0 +1,22 @@
+<!-- Templates Section -->
+<div class="templates-section">
+  <div class="panel-header">
+    <h2 class="panel-title">QUICK START TEMPLATES</h2>
+  </div>
+  
+  <div class="modules-grid">
+    <div *ngFor="let template of templates" 
+         class="hud-panel module-card glow-hover quick-template"
+         (click)="createFromTemplate(template)">
+      <div class="card-glow template-glow"></div>
+      <div class="module-info" style="align-items: center; justify-content: center; text-align: center; padding: 2rem 1rem;">
+        <div class="module-icon" style="font-size: 3rem; margin-bottom: 1rem;">{{ template.icon }}</div>
+        <h3 class="module-name" style="margin: 0; font-size: 1.2rem; letter-spacing: 2px;">{{ template.name }}</h3>
+        
+        <div class="template-hover-hint">
+            <span class="system-dim" style="font-size: 0.8rem;">[ CLICK TO INSTALL ]</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

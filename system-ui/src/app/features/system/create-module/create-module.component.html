@@ -1,0 +1,57 @@
+<div class="create-overlay">
+  <div class="create-panel hud-panel">
+    <div class="panel-header">
+      <h2 class="panel-title system-glitch">NEW MODULE INTERFACE</h2>
+      <button class="close-btn glow-hover" (click)="close.emit()">[X]</button>
+    </div>
+
+    <form [formGroup]="moduleForm" (ngSubmit)="createModule()" class="module-form">
+      <div class="form-group">
+        <label class="system-label">DESIGNATION / NAME</label>
+        <input type="text" formControlName="name" class="system-input" placeholder="e.g. Meditation, Networking...">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label class="system-label">ICON</label>
+          <input type="text" formControlName="icon" class="system-input" placeholder="⚔️">
+        </div>
+        
+        <div class="form-group half">
+          <label class="system-label">CATEGORY</label>
+          <select formControlName="category" class="system-input system-select">
+            <option value="mind">MIND</option>
+            <option value="body">BODY</option>
+            <option value="knowledge">KNOWLEDGE</option>
+            <option value="career">CAREER</option>
+            <option value="custom">CUSTOM</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label class="system-label">TRACKING TYPE</label>
+          <select formControlName="trackingType" class="system-input system-select">
+            <option value="habit">HABIT</option>
+            <option value="counter">COUNTER</option>
+            <option value="timer">TIMER</option>
+            <option value="progress">PROGRESS</option>
+          </select>
+        </div>
+        
+        <div class="form-group half">
+          <label class="system-label">XP REWARD</label>
+          <input type="number" formControlName="xpReward" class="system-input">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel glow-hover" (click)="close.emit()">CANCEL</button>
+        <button type="submit" class="btn-submit primary-glow" [disabled]="moduleForm.invalid || isCreating">
+          {{ isCreating ? 'Generating...' : 'Initialize Module' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

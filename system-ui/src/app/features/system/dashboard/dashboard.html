@@ -19,6 +19,41 @@
     </div>
   </div>
 
+
+  <!-- Quick Start Templates Section -->
+  <app-module-templates (templateCreated)="onTemplateCreated()"></app-module-templates>
+
+  <!-- Custom Modules Section -->
+  <div class="custom-modules-section" style="margin-top: 2rem;">
+    <div class="panel-header">
+      <h2 class="panel-title">CUSTOM MODULES</h2>
+    </div>
+    <div class="modules-grid">
+      <div *ngFor="let module of customModules()" 
+           class="hud-panel module-card glow-hover"
+           [routerLink]="['/system/module', module._id]">
+        <div class="card-glow"></div>
+        <div class="module-info">
+          <h3 class="module-name"><span class="module-icon" style="margin-right: 0.5rem">{{ module.icon }}</span>{{ module.name }}</h3>
+          <p class="module-desc">Category: {{ module.category | uppercase }}</p>
+          <div class="module-footer" style="margin-top: 1rem;">
+            <div class="streak-badge" *ngIf="module.features?.streak">
+              <span class="system-label">STREAK:</span>
+              <span class="system-value glow-text">0</span>
+            </div>
+            <span class="enter-hint">ENTER >></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <button class="add-module-btn glow-hover" 
+            style="margin-top: 1rem; width: 100%; border: 1px dashed var(--system-cyan); background: rgba(0, 234, 255, 0.05); padding: 1rem; color: var(--system-cyan); font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;" 
+            (click)="createModule()">
+      + Create Module
+    </button>
+  </div>
+
   <!-- Active Tasks Section -->
   <div class="hud-panel active-tasks-section">
     <div class="panel-header">
@@ -38,6 +73,8 @@
       </div>
     </div>
   </div>
+
+  <app-create-module *ngIf="showCreateModule()" (close)="showCreateModule.set(false)" (moduleCreated)="onModuleCreated()"></app-create-module>
 
   <!-- Quest Creation Overlay -->
   <div class="create-overlay" *ngIf="showCreatePanel()">

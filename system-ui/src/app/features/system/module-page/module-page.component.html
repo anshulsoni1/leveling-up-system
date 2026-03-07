@@ -1,0 +1,55 @@
+<div class="system-wrapper">
+  <div class="content-container">
+    <div class="header-section">
+      <button class="back-btn glow-hover" routerLink="/system">« BACK TO SYSTEM</button>
+      <h1 class="page-title system-glitch" *ngIf="module()">
+        <span class="module-icon">{{ module()?.icon }}</span>
+        {{ module()?.name | uppercase }}
+      </h1>
+      <p class="system-desc" *ngIf="module()">CATEGORY: {{ module()?.category | uppercase }} | MODE: {{ module()?.trackingType | uppercase }}</p>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls-panel">
+      <button class="log-btn primary-glow" (click)="logActivity()">++ LOG ACTIVITY ++</button>
+    </div>
+
+
+    <!-- Stats Board -->
+    <div class="stats-panel" style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+      <div class="hud-panel stat-box" style="flex: 1; padding: 1.5rem; text-align: center;">
+        <h3 class="system-dim" style="font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 0.5rem;">CURRENT STREAK</h3>
+        <div class="system-glitch" style="font-size: 3rem; color: var(--system-cyan)">{{ currentStreak() }}</div>
+      </div>
+      <div class="hud-panel stat-box" style="flex: 1; padding: 1.5rem; text-align: center;">
+        <h3 class="system-dim" style="font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 0.5rem;">LONGEST STREAK</h3>
+        <div class="system-value" style="font-size: 3rem; color: var(--system-light)">{{ longestStreak() }}</div>
+      </div>
+    </div>
+
+    <!-- Heatmap Native View -->
+    <div class="heatmap-container" style="margin-bottom: 2rem;">
+      <app-module-heatmap [heatmapData]="heatmapData()"></app-module-heatmap>
+    </div>
+
+    <!-- History Panel -->
+    <div class="hud-panel logs-panel">
+      <div class="panel-header" style="margin-bottom: 1.5rem; justify-content: space-between;">
+        <h2 class="panel-title">ACTIVITY HISTORY</h2>
+        <span class="system-value glow-text">TOTAL LOGS: {{ logs().length }}</span>
+      </div>
+
+      <div class="logs-list">
+        <div *ngFor="let log of logs()" class="log-item">
+          <div class="log-date">{{ log.date | date:'mediumDate' }}</div>
+          <div class="log-value"><span class="system-label" style="font-size: 0.8rem; margin-right: 0.5rem">+VALUE</span> <span class="system-value">{{ log.value }}</span></div>
+          <div class="log-xp" *ngIf="log.xpAwarded > 0"><span class="system-value glow-text">+{{ log.xpAwarded }} XP</span></div>
+        </div>
+
+        <div *ngIf="logs().length === 0" class="empty-state" style="padding: 2rem; text-align: center; color: var(--system-dim);">
+          NO LOGS DETECTED IN STORAGE MATRIX.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
