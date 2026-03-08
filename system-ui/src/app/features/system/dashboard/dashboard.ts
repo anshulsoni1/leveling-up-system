@@ -27,9 +27,7 @@ interface ModuleCard {
     RouterModule,
     QuestItemComponent,
     QuestCreatePanelComponent,
-    CreateModuleComponent,
-    ModuleTemplatesComponent,
-    DailyQuestsComponent
+    CreateModuleComponent,\n    ModuleTemplatesComponent,\n    DailyQuestsComponent,\n    BossPanelComponent,\n    HunterStatusPanelComponent
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'

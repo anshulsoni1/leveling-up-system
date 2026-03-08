@@ -1,11 +1,8 @@
-<div class="dashboard-wrapper">
+<div class="dashboard-wrapper">\n  <app-hunter-status-panel></app-hunter-status-panel>\n
   <!-- Module Cards Grid -->
   <app-boss-panel></app-boss-panel>
       
-      <div class="danger-warning" *ngIf="xpEngine.isDangerMode()">
-  ⚠ Hunter Status: Weakening<br/>
-  <span class="danger-subtext">Your discipline is fading.</span>
-</div>
+      
   <div class="modules-grid">
     <div *ngFor="let module of modules()" 
          class="hud-panel module-card glow-hover"
