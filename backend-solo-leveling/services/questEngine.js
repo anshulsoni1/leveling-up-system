@@ -1,90 +1,83 @@
 const Quest = require('../models/quest.model');
-const User = require('../models/user.model');
+const Boss = require('../models/boss.model');
 
-// Generate daily contextual quests based on frontend metrics
-const generateDailyQuests = async (userId, params) => {
-  const { inactiveDays = 0, streak = 0, bossActive = false } = params;
+async function generateDailyQuests(userId, userStats) {
+  // Check if quests already generated today
+  const startOfDay = new Date();
+  startOfDay.setHours(0, 0, 0, 0);
+  
+  const existingQuests = await Quest.find({
+    userId,
+    createdAt: { $gte: startOfDay }
+  });
 
-  // Clear existing uncompleted daily quests to regenerate fresh context
-  await Quest.deleteMany({ userId, completed: false });
+  if (existingQuests.length > 0) {
+    return existingQuests; // Already generated
+  }
 
   const newQuests = [];
+  const { inactiveDays, streak, moduleInactive } = userStats || { inactiveDays: 0, streak: 0, moduleInactive: false };
 
   // 1. Recovery Quest
   if (inactiveDays >= 3) {
     newQuests.push({
       userId,
-      title: 'Arise from the Shadows',
-      description: 'You have been inactive. Complete 1 module to break the inertia.',
-      rewardXP: 50,
-      type: 'RECOVERY'
+      title: 'Recovery Routine',
+      description: 'You have been inactive for 3+ days. Complete 1 module to break the stagnation.',
+      rewardXP: 100,
+      type: 'Recovery'
     });
   }
 
-  // 2. Streak Momentum Quest
+  // 2. Boss Quest
+  const activeBoss = await Boss.findOne({ userId, active: true });
+  if (activeBoss) {
+    newQuests.push({
+      userId,
+      title: 'Defeat the Demon',
+      description: `Deal damage to ${activeBoss.name} by completing modules today.`,
+      rewardXP: 150,
+      type: 'Boss'
+    });
+  }
+
+  // 3. Streak Quest
   if (streak >= 7) {
     newQuests.push({
       userId,
-      title: 'Relentless Momentum',
-      description: `You are on a ${streak}-day streak! Complete 2 modules today to maintain the fire.`,
-      rewardXP: 30,
-      type: 'STREAK'
+      title: 'Maintain Momentum',
+      description: 'You are on a 7+ day streak! Complete 3 modules today to keep the momentum going.',
+      rewardXP: 200,
+      type: 'Streak'
     });
   }
 
-  // 3. Boss Active Quest
-  if (bossActive === 'true' || bossActive === true) {
+  // 4. Balance Quest
+  if (moduleInactive) {
     newQuests.push({
       userId,
-      title: 'Demon Slayer',
-      description: 'A Demon is active. Deal damage and reduce its HP.',
-      rewardXP: 100,
-      type: 'BOSS'
+      title: 'Restore Balance',
+      description: 'One of your modules has been neglected. Allocate time to it today.',
+      rewardXP: 80,
+      type: 'Balance'
     });
   }
 
-  // 4. Default Routine (If no special conditions met, or just as a baseline)
+  // 5. Default Daily if empty
   if (newQuests.length === 0) {
     newQuests.push({
       userId,
-      title: 'Daily Routine',
-      description: 'Log at least 1 activity in your modules today.',
-      rewardXP: 20,
-      type: 'DAILY'
+      title: 'Daily Training',
+      description: 'Complete at least 1 module to maintain your Hunter rank.',
+      rewardXP: 50,
+      type: 'Daily'
     });
   }
 
-  const savedQuests = await Quest.insertMany(newQuests);
-  return savedQuests;
-};
-
-// Check Quest Completion & Award XP
-const checkQuestCompletion = async (questId, userId) => {
-  const quest = await Quest.findOne({ _id: questId, userId });
-  
-  if (!quest) {
-    throw new Error('Quest not found');
-  }
-  
-  if (quest.completed) {
-    throw new Error('Quest already completed');
-  }
-
-  quest.completed = true;
-  await quest.save();
-
-  // Directly update user XP
-  const user = await User.findById(userId);
-  if (user) {
-    user.xp += quest.rewardXP;
-    user.level = Math.floor(user.xp / 100) + 1; // Basic leveling formula
-    await user.save();
-  }
-
-  return { quest, xpRewarded: quest.rewardXP, newTotalXp: user ? user.xp : 0 };
-};
+  const createdQuests = await Quest.insertMany(newQuests);
+  return createdQuests;
+}
 
 module.exports = {
-  generateDailyQuests,
-  checkQuestCompletion
+  generateDailyQuests
 };

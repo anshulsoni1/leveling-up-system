@@ -1,40 +1,39 @@
 const express = require('express');
 const router = express.Router();
-const authMiddleware = require('../middleware/auth.middleware');
-const { generateDailyQuests, checkQuestCompletion } = require('../services/questEngine');
+const { generateDailyQuests } = require('../services/questEngine');
 const Quest = require('../models/quest.model');
+const authMiddleware = require('../middleware/auth.middleware');
 
 // GET /api/quests/daily
-// Query Params: ?inactiveDays=x&streak=y&bossActive=z
 router.get('/daily', authMiddleware, async (req, res) => {
   try {
-    const { inactiveDays, streak, bossActive } = req.query;
-    
-    // Check if we already have incomplete quests today
-    const existing = await Quest.find({ userId: req.userId, completed: false });
-    
-    // Optionally return existing if they exist (or force regenerate)
-    // For AI dynamic freshness, we'll actively regenerate based on current state
-    const quests = await generateDailyQuests(req.userId, { 
-      inactiveDays: parseInt(inactiveDays) || 0, 
-      streak: parseInt(streak) || 0,
-      bossActive 
-    });
+    const userId = req.user.id;
+    // For now we mock the userStats by reading req.query or default
+    const userStats = {
+      inactiveDays: parseInt(req.query.inactiveDays) || 0,
+      streak: parseInt(req.query.streak) || 0,
+      moduleInactive: req.query.moduleInactive === 'true'
+    };
 
-    res.status(200).json(quests);
+    const quests = await generateDailyQuests(userId, userStats);
+    res.json({ quests });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to generate quests', error: error.message });
+    console.error('Error generating quests:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
-// POST /api/quests/complete/:id
-router.post('/complete/:id', authMiddleware, async (req, res) => {
+// Update completion status
+router.put('/:id/complete', authMiddleware, async (req, res) => {
   try {
-    const { id } = req.params;
-    const result = await checkQuestCompletion(id, req.userId);
-    res.status(200).json({ message: 'Quest completed', data: result });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+    const quest = await Quest.findOneAndUpdate(
+       { _id: req.params.id, userId: req.user.id },
+       { completed: true },
+       { new: true }
+    );
+    res.json(quest);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
