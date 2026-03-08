@@ -1,10 +1,25 @@
-<div class="dashboard-wrapper">\n  <app-hunter-status-panel></app-hunter-status-panel>\n
-  <!-- Module Cards Grid -->
+<div class="dashboard-wrapper" style="display: flex; flex-direction: column; gap: 2rem;">
+
+  <!-- System Header -->
+  <div class="system-header">
+    <h1 style="color: var(--system-cyan); text-shadow: 0 0 10px var(--system-cyan); margin: 0; letter-spacing: 2px; font-size: 1.8rem;">SYSTEM COMMAND CENTER</h1>
+  </div>
+
+  <!-- Hunter Status Panel -->
+  <app-hunter-status-panel></app-hunter-status-panel>
+
+  <!-- Daily Quests (auto-evaluated local quests) -->
+  <app-daily-quests></app-daily-quests>
+
+  <!-- Quest Panel (API-driven quests) -->
+  <app-quest-panel></app-quest-panel>
+
+  <!-- Boss Panel -->
   <app-boss-panel></app-boss-panel>
-      
-      
+
+  <!-- Module Cards Grid -->
   <div class="modules-grid">
-    <div *ngFor="let module of modules()" 
+    <div *ngFor="let module of modules()"
          class="hud-panel module-card glow-hover"
          [routerLink]="module.route">
       <div class="card-glow"></div>
@@ -22,7 +37,6 @@
     </div>
   </div>
 
-
   <!-- Quick Start Templates Section -->
   <app-module-templates (templateCreated)="onTemplateCreated()"></app-module-templates>
 
@@ -32,7 +46,7 @@
       <h2 class="panel-title">CUSTOM MODULES</h2>
     </div>
     <div class="modules-grid">
-      <div *ngFor="let module of customModules()" 
+      <div *ngFor="let module of customModules()"
            class="hud-panel module-card glow-hover"
            [routerLink]="['/system/module', module._id]">
         <div class="card-glow"></div>
@@ -49,9 +63,9 @@
         </div>
       </div>
     </div>
-    
-    <button class="add-module-btn glow-hover" 
-            style="margin-top: 1rem; width: 100%; border: 1px dashed var(--system-cyan); background: rgba(0, 234, 255, 0.05); padding: 1rem; color: var(--system-cyan); font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;" 
+
+    <button class="add-module-btn glow-hover"
+            style="margin-top: 1rem; width: 100%; border: 1px dashed var(--system-cyan); background: rgba(0, 234, 255, 0.05); padding: 1rem; color: var(--system-cyan); font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;"
             (click)="createModule()">
       + Create Module
     </button>
@@ -63,14 +77,14 @@
       <h2 class="panel-title">ACTIVE TASKS</h2>
       <button class="add-quest-btn glow-hover" (click)="toggleCreatePanel()">+ NEW QUEST</button>
     </div>
-    
+
     <div class="quests-list">
-      <app-quest-item 
-        *ngFor="let quest of quests()" 
+      <app-quest-item
+        *ngFor="let quest of quests()"
         [quest]="quest"
         (complete)="completeQuest($event)">
       </app-quest-item>
-      
+
       <div *ngIf="quests().length === 0" class="empty-state">
         <span class="system-dim">NO ACTIVE TASKS DETECTED</span>
       </div>
@@ -81,8 +95,8 @@
 
   <!-- Quest Creation Overlay -->
   <div class="create-overlay" *ngIf="showCreatePanel()">
-    <app-quest-create-panel 
-      (create)="addQuest($event)" 
+    <app-quest-create-panel
+      (create)="addQuest($event)"
       (close)="toggleCreatePanel()">
     </app-quest-create-panel>
   </div>

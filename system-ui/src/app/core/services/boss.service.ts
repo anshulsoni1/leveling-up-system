@@ -1,7 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from './user.service';
-import { environment } from '../../../environments/environment';
 
 export interface BossData {
   _id: string;
@@ -18,7 +17,7 @@ export interface BossData {
 })
 export class BossService {
   boss = signal<BossData | null>(null);
-  private apiUrl = environment.apiUrl + '/boss';
+  private apiUrl = 'https://leveling-up-system-1.onrender.com/api/boss';
 
   constructor(private http: HttpClient, private userService: UserService) {}
 

@@ -10,6 +10,10 @@ import { QuestCreatePanelComponent } from '../components/quest-create-panel/ques
 import { CreateModuleComponent } from '../create-module/create-module.component';
 import { ModuleTemplatesComponent } from '../module-templates/module-templates.component';
 import { DailyQuestsComponent } from '../daily-quests/daily-quests.component';
+import { BossPanelComponent } from '../boss-panel/boss-panel.component';
+import { HunterStatusPanelComponent } from '../hunter-status-panel/hunter-status-panel.component';
+import { QuestPanelComponent } from '../quest-panel/quest-panel.component';
+import { BossService } from '../../../core/services/boss.service';
 
 interface ModuleCard {
   id: string;
@@ -27,7 +31,12 @@ interface ModuleCard {
     RouterModule,
     QuestItemComponent,
     QuestCreatePanelComponent,
-    CreateModuleComponent,\n    ModuleTemplatesComponent,\n    DailyQuestsComponent,\n    BossPanelComponent,\n    HunterStatusPanelComponent
+    CreateModuleComponent,
+    ModuleTemplatesComponent,
+    DailyQuestsComponent,
+    BossPanelComponent,
+    HunterStatusPanelComponent,
+    QuestPanelComponent
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
@@ -47,8 +56,7 @@ export class SystemDashboard implements OnInit {
     this.userService.getMe().subscribe((res: any) => {
       if (res) {
         this.stateService.setStateFromApi(res);
-        
-        // Setup Boss spawn check based on last active
+
         const msPerDay = 1000 * 60 * 60 * 24;
         const inactiveDays = res.lastActiveDate ? Math.floor((Date.now() - new Date(res.lastActiveDate).getTime()) / msPerDay) : 0;
         this.bossService.checkAndSpawnBoss(inactiveDays);
@@ -70,7 +78,7 @@ export class SystemDashboard implements OnInit {
       id: 'books',
       name: 'Book Reading',
       description: 'Absorb knowledge through divine literature and ancient texts.',
-      streak: 7, 
+      streak: 7,
       route: '/system/books'
     },
     {

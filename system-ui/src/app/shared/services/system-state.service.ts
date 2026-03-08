@@ -48,6 +48,11 @@ const TYPE_ATTRIBUTE: Record<QuestType, keyof Attributes> = {
   providedIn: 'root',
 })
 export class SystemStateService {
+
+  updateUserXp(total: number) {
+    this.state.update(s => ({ ...s, xp: total }));
+  }
+
   private state = signal<SystemState>({
     userName: 'Shadow Monarch',
     level: 1,
