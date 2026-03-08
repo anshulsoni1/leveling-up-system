@@ -12,12 +12,12 @@ import { BossService } from '../../../core/services/boss.service';
           <div class="boss-icon">☠️</div>
           <div class="boss-info">
              <h3 class="danger-title">{{ boss.name }}</h3>
-             <p class="boss-desc">Your inactivity has manifested a demon! Complete modules to fight back (-50 HP per activity). <br/>If it survives, you lose {{boss.damagePerDay}} XP daily!</p>
+             <div class="boss-hp-text">HP: {{ getHpBar(boss.hp, boss.maxHp) }}</div>
           </div>
        </div>
 
        <div class="hp-container">
-          <div class="hp-text">{{boss.hp}} / {{boss.maxHp}} HP</div>
+          <div class="hp-text">{{boss.hp}} / {{boss.maxHp}}</div>
           <div class="hp-track">
              <div class="hp-fill" [style.width.%]="(boss.hp / boss.maxHp) * 100"></div>
           </div>
@@ -57,11 +57,12 @@ import { BossService } from '../../../core/services/boss.service';
        font-weight: 800;
        text-shadow: 0 0 10px rgba(255,0,0,0.6);
     }
-    .boss-desc {
+    .boss-hp-text {
        color: #ffaaaa;
-       font-size: 0.9rem;
+       font-size: 1.2rem;
+       font-family: monospace;
+       letter-spacing: 2px;
        margin: 0;
-       line-height: 1.4;
     }
     .hp-container {
        width: 100%;
@@ -97,4 +98,11 @@ import { BossService } from '../../../core/services/boss.service';
 })
 export class BossPanelComponent {
   bossService = inject(BossService);
+
+  getHpBar(hp: number, maxHp: number): string {
+    const totalBlocks = 10;
+    const filled = Math.max(0, Math.round((hp / maxHp) * totalBlocks));
+    const empty = Math.max(0, totalBlocks - filled);
+    return '█'.repeat(filled) + '░'.repeat(empty);
+  }
 }

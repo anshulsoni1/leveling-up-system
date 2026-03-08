@@ -1,13 +1,16 @@
 import { Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { UserService } from './user.service';
+import { environment } from '../../../environments/environment';
 
 export interface BossData {
-  id: string;
+  _id: string;
   name: string;
   hp: number;
   maxHp: number;
   damagePerDay: number;
-  isActive: boolean;
+  active: boolean;
+  spawnDate: string;
 }
 
 @Injectable({
@@ -15,67 +18,36 @@ export interface BossData {
 })
 export class BossService {
   boss = signal<BossData | null>(null);
+  private apiUrl = environment.apiUrl + '/boss';
 
-  constructor(private userService: UserService) {
-    this.loadBoss();
-  }
-
-  private loadBoss() {
-    const saved = localStorage.getItem('currentBoss');
-    if (saved) {
-      this.boss.set(JSON.parse(saved));
-    }
-  }
-
-  private saveBoss(data: BossData | null) {
-    if (data) {
-      localStorage.setItem('currentBoss', JSON.stringify(data));
-      this.boss.set(data);
-    } else {
-      localStorage.removeItem('currentBoss');
-      this.boss.set(null);
-    }
-  }
+  constructor(private http: HttpClient, private userService: UserService) {}
 
   checkAndSpawnBoss(inactiveDays: number) {
-    const current = this.boss();
-    if (inactiveDays >= 3 && !current) {
-      // Spawn new boss
-      const newBoss: BossData = {
-        id: 'proc_demon_' + Date.now(),
-        name: 'Procrastination Demon',
-        hp: 300,
-        maxHp: 300,
-        damagePerDay: 10,
-        isActive: true
-      };
-      this.saveBoss(newBoss);
-    } else if (inactiveDays < 3 && current && current.isActive) {
-       // Reset if user is highly active again and defeated it previously or naturally cleared
-    }
+    this.http.get<BossData | null>(`${this.apiUrl}/current?inactiveDays=${inactiveDays}`)
+      .subscribe({
+        next: (data) => {
+          if (data && data.active) {
+            this.boss.set(data);
+          } else {
+            this.boss.set(null);
+          }
+        },
+        error: (err) => console.error('Failed to fetch Boss State', err)
+      });
   }
 
   dealDamage(amount: number) {
+    // Only local simulation for now since backend damage route wasn't explicitly requested yet
+    // Kept to avoid breaking module-page.component.ts calls
     const current = this.boss();
-    if (!current || !current.isActive) return;
-
+    if (!current || !current.active) return;
+    
     current.hp -= amount;
-    
     if (current.hp <= 0) {
-      this.defeatBoss(current);
+       this.boss.set(null);
+       this.userService.updateXP(100).subscribe();
     } else {
-      this.saveBoss(current);
+       this.boss.set({...current});
     }
-  }
-
-  private defeatBoss(bossData: BossData) {
-    // Reward +100 XP
-    this.userService.updateXP(100).subscribe({
-      next: () => console.log('Boss Defeated! +100 XP Awarded.'),
-      error: (e) => console.error('Failed to reward Boss XP:', e)
-    });
-    
-    // Clear boss from storage
-    this.saveBoss(null);
   }
 }
