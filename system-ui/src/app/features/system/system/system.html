@@ -1,4 +1,5 @@
-<div class="hud-grid-wrapper">
+<app-system-sidebar></app-system-sidebar>
+<div class="hud-grid-wrapper system-main-content">
   <!-- Level Up Overlay -->
   <app-levelup-overlay 
     *ngIf="levelUpData()"
@@ -11,7 +12,10 @@
   <!-- Header Panel (Global for System) -->
   <div class="hud-panel system-header">
     <div class="header-main">
-      <h1 class="system-title glow-pulse">SYSTEM ACTIVE</h1>
+      <div class="system-title-row">
+        <h1 class="system-title glow-pulse">SYSTEM ACTIVE</h1>
+        <span class="health-indicator" [class.online]="systemOnline()" [class.offline]="!systemOnline()"></span>
+      </div>
       <app-rank-badge [rank]="rank()"></app-rank-badge>
     </div>
     <div class="user-meta">

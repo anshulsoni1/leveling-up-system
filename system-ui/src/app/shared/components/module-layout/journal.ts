@@ -235,6 +235,16 @@ interface JournalEntry {
       }
     }
     
+    @media (max-width: 768px) {
+      .journal-panel { padding: 1rem; min-height: 300px; }
+      .journal-layout { flex-direction: column; height: auto; }
+      .journal-sidebar { width: 100%; height: 120px; padding: 0.75rem; }
+      .workspace-content { flex-direction: column; }
+      .workspace-content.split-view .editor-pane,
+      .workspace-content.split-view .preview-pane { width: 100%; }
+      .sidebar-header { font-size: 0.7rem; }
+      .entry-item { padding: 0.5rem; }
+    }
     .no-selection {
       flex-grow: 1;
       display: flex;

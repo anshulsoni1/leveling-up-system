@@ -17,7 +17,9 @@ import { DailyQuestsComponent } from '../daily-quests/daily-quests.component';
 import { BossPanelComponent } from '../boss-panel/boss-panel.component';
 import { HunterStatusPanelComponent } from '../hunter-status-panel/hunter-status-panel.component';
 import { QuestPanelComponent } from '../quest-panel/quest-panel.component';
+import { EmptyStateComponent } from '../../../../shared/components/empty-state/empty-state.component';
 import { BossService } from '../../../core/services/boss.service';
+import { AchievementService } from '../../../core/services/achievement.service';
 
 interface ModuleCard {
   id: string;
@@ -48,6 +50,7 @@ interface ModuleCard {
 export class SystemDashboard implements OnInit {
   private stateService = inject(SystemStateService);
   private bossService = inject(BossService);
+  private achievementService = inject(AchievementService);
   private userService = inject(UserService);
   private activityService = inject(ActivityService);
   private toastService = inject(ToastService);
@@ -70,6 +73,9 @@ export class SystemDashboard implements OnInit {
         this.xpEngine.checkDangerMode(inactiveDays);
       }
     });
+
+    // Check achievements on dashboard load
+    this.achievementService.checkAchievements().subscribe();
 
     this.moduleService.getModules().subscribe((res: any) => {
       if (res) {

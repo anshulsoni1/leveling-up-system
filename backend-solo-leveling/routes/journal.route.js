@@ -5,7 +5,9 @@ const { getJournal, addEntry, deleteEntry } = require('../controllers/journal.co
 
 router.use(authMiddleware);
 
+router.get('/', getJournal);
 router.get('/:module', getJournal);
+router.post('/', addEntry);
 router.post('/:module', addEntry);
 router.delete('/:module/:entryId', deleteEntry);
 

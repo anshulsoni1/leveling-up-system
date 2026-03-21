@@ -229,3 +229,42 @@
   0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.1), inset 0 0 10px rgba(255, 0, 0, 0.1); border-color: #aa0000; }
   100% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.6), inset 0 0 30px rgba(255, 0, 0, 0.4); border-color: #ff3333; }
 }
+
+/* Quick Navigation Buttons */
+.quick-nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.quick-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(0, 200, 255, 0.04);
+  border: 1px solid rgba(0, 200, 255, 0.15);
+  border-radius: 8px;
+  color: rgba(180, 210, 230, 0.8);
+  text-decoration: none;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.quick-nav-btn:hover {
+  color: #00c8ff;
+  background: rgba(0, 200, 255, 0.1);
+  border-color: rgba(0, 200, 255, 0.4);
+  box-shadow: 0 0 12px rgba(0, 200, 255, 0.15), inset 0 0 8px rgba(0, 200, 255, 0.05);
+  transform: translateY(-2px);
+}
+.qn-icon {
+  font-size: 1.1rem;
+}
+@media (max-width: 768px) {
+  .quick-nav { flex-direction: column; }
+  .quick-nav-btn { width: 100%; justify-content: center; }
+}

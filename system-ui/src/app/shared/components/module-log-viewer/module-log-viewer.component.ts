@@ -1,11 +1,12 @@
 import { Component, Input, OnInit, OnChanges, inject, signal } from '@angular/core';
+import { EmptyStateComponent } from '../empty-state/empty-state.component';
 import { CommonModule } from '@angular/common';
 import { ModuleService } from '../../../core/services/module.service';
 
 @Component({
   selector: 'app-module-log-viewer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, EmptyStateComponent],
   templateUrl: './module-log-viewer.component.html',
   styleUrls: ['./module-log-viewer.component.scss']
 })

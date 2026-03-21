@@ -2,11 +2,59 @@ const User = require('../models/user.model');
 
 const getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select('email xp level rank quests');
+    const user = await User.findById(req.userId).select('email xp level rank quests displayName avatarUrl');
     if (!user) {
-      return res.status(200).json({ email: '', xp: 0, level: 1, rank: 'E', quests: [] });
+      return res.status(200).json({ email: '', xp: 0, level: 1, rank: 'E', quests: [], displayName: 'Shadow Monarch', avatarUrl: 'assets/images/placeholder.jpg' });
     }
     res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+
+const updateProfile = async (req, res) => {
+  try {
+    const { displayName, avatarUrl } = req.body;
+    
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (displayName !== undefined) user.displayName = displayName;
+    if (avatarUrl !== undefined) user.avatarUrl = avatarUrl;
+    
+    await user.save();
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+
+
+const updateState = async (req, res) => {
+  try {
+    const { xp, quests, level } = req.body;
+    
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (xp !== undefined) user.xp = xp;
+    if (level !== undefined) user.level = level;
+    if (quests !== undefined) user.quests = quests;
+    
+    // Recalculate level from XP if level not explicitly provided
+    if (xp !== undefined && level === undefined) {
+      user.level = Math.floor(user.xp / 100) + 1;
+    }
+
+    await user.save();
+
+    res.status(200).json({ xp: user.xp, level: user.level, quests: user.quests });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
@@ -21,7 +69,7 @@ const updateXP = async (req, res) => {
 
     const user = await User.findById(req.userId);
     if (!user) {
-      return res.status(200).json({ email: '', xp: 0, level: 1, rank: 'E', quests: [] });
+      return res.status(200).json({ email: '', xp: 0, level: 1, rank: 'E', quests: [], displayName: 'Shadow Monarch', avatarUrl: 'assets/images/placeholder.jpg' });
     }
 
     user.xp += delta;
@@ -55,4 +103,4 @@ const updateQuests = async (req, res) => {
   }
 };
 
-module.exports = { getMe, updateXP, updateQuests };
+module.exports = { getMe, updateProfile, updateState, updateXP, updateQuests };

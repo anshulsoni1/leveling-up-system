@@ -23,6 +23,10 @@ export class UserService {
     return this.http.patch(this.apiUrl + '/xp', { delta }).pipe(tap(() => this.achievementService.checkAchievements().subscribe()));
   }
 
+  updateState(data: { xp?: number; level?: number; quests?: any[] }): Observable<any> {
+    return this.http.patch(this.apiUrl + '/state', data).pipe(tap(() => this.achievementService.checkAchievements().subscribe()));
+  }
+
   updateQuests(quests: any[]): Observable<any> {
     return this.http.patch(this.apiUrl + '/quests', { quests });
   }

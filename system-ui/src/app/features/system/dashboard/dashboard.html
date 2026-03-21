@@ -5,6 +5,23 @@
     <h1 style="color: var(--system-cyan); text-shadow: 0 0 10px var(--system-cyan); margin: 0; letter-spacing: 2px; font-size: 1.8rem;">SYSTEM COMMAND CENTER</h1>
   </div>
 
+
+  <!-- Quick Navigation -->
+  <div class="quick-nav">
+    <a routerLink="/system/analytics" class="quick-nav-btn">
+      <span class="qn-icon">◈</span>
+      <span class="qn-label">Go to Analytics</span>
+    </a>
+    <a routerLink="/system/journal" class="quick-nav-btn">
+      <span class="qn-icon">◇</span>
+      <span class="qn-label">Open Journal</span>
+    </a>
+    <a routerLink="/system/profile" class="quick-nav-btn">
+      <span class="qn-icon">◎</span>
+      <span class="qn-label">View Profile</span>
+    </a>
+  </div>
+
   <!-- Hunter Status Panel -->
   <app-hunter-status-panel></app-hunter-status-panel>
 
@@ -85,9 +102,9 @@
         (complete)="completeQuest($event)">
       </app-quest-item>
 
-      <div *ngIf="quests().length === 0" class="empty-state">
-        <span class="system-dim">NO ACTIVE TASKS DETECTED</span>
-      </div>
+      <app-empty-state *ngIf="quests().length === 0"
+        icon="⚔" title="NO ACTIVE TASKS DETECTED" subtitle="Start your journey — create your first quest"
+        ctaLabel="CREATE QUEST" (ctaClick)="toggleCreatePanel()"></app-empty-state>
     </div>
   </div>
 

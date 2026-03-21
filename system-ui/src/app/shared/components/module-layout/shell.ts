@@ -66,6 +66,12 @@ import { ModuleLogViewerComponent } from '../module-log-viewer/module-log-viewer
       flex-direction: column;
       gap: 1.5rem;
     }
+    @media (max-width: 768px) {
+      .module-shell-container { gap: 1rem; overflow-x: hidden; }
+      .module-scroll-content { gap: 1rem; }
+      .tracker-slot { padding: 1rem; min-height: auto; }
+      .slot-content { gap: 1rem; }
+    }
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }

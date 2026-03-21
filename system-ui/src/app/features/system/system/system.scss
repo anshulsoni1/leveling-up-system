@@ -247,3 +247,45 @@
   to { opacity: 1; }
 }
 
+
+/* Health Check Indicator */
+.system-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.health-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  transition: all 0.3s ease;
+
+  &.online {
+    background: #00ff88;
+    box-shadow: 0 0 8px #00ff88, 0 0 16px rgba(0, 255, 136, 0.4);
+    animation: pulse-green 2s infinite;
+  }
+
+  &.offline {
+    background: #ff4444;
+    box-shadow: 0 0 8px #ff4444, 0 0 16px rgba(255, 68, 68, 0.4);
+    animation: pulse-red 1.5s infinite;
+  }
+}
+
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px #00ff88; }
+  50% { opacity: 0.7; box-shadow: 0 0 16px #00ff88, 0 0 24px rgba(0, 255, 136, 0.3); }
+}
+
+@keyframes pulse-red {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px #ff4444; }
+  50% { opacity: 0.6; box-shadow: 0 0 16px #ff4444, 0 0 24px rgba(255, 68, 68, 0.3); }
+}
+
+/* Sidebar Layout Integration */
+:host { display: flex; min-height: 100vh; }
+.system-main-content { margin-left: 220px; transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1); flex: 1; }
+@media (max-width: 768px) { .system-main-content { margin-left: 60px; } }

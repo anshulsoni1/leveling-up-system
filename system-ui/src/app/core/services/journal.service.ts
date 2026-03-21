@@ -20,7 +20,18 @@ export class JournalService {
     return this.http.get<JournalEntry[]>(this.apiUrl);
   }
 
-  addEntry(content: string): Observable<JournalEntry> {
-    return this.http.post<JournalEntry>(this.apiUrl, { content });
+  getJournal(moduleName: string): Observable<any> {
+    return this.http.get(this.apiUrl + '/' + moduleName);
+  }
+
+  addEntry(contentOrModule: string, text?: string): Observable<JournalEntry> {
+    if (text !== undefined) {
+      return this.http.post<JournalEntry>(this.apiUrl + '/' + contentOrModule, { text });
+    }
+    return this.http.post<JournalEntry>(this.apiUrl, { content: contentOrModule });
+  }
+
+  deleteEntry(moduleName: string, entryId: string): Observable<any> {
+    return this.http.delete(this.apiUrl + '/' + moduleName + '/' + entryId);
   }
 }

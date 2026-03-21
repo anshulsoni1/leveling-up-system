@@ -2,6 +2,7 @@ import { Injectable, signal, computed, inject } from '@angular/core';
 import { ToastService } from './toast.service';
 import { Subject } from 'rxjs';
 import { UserService } from '../../core/services/user.service';
+import { AchievementService } from '../../core/services/achievement.service';
 
 export type QuestType = 'workout' | 'study' | 'habit' | 'challenge';
 export type QuestDifficulty = 'easy' | 'medium' | 'hard';
@@ -91,6 +92,15 @@ export class SystemStateService {
 
   private toastService = inject(ToastService);
   private userService = inject(UserService);
+  private achievementService = inject(AchievementService);
+
+  private syncStateToBackend() {
+    const s = this.state();
+    this.userService.updateState({ xp: s.xp, level: s.level, quests: s.quests }).subscribe({
+      next: () => console.log('State synced to backend'),
+      error: (err: any) => console.error('Failed to sync state', err)
+    });
+  }
 
   constructor() {
   }
@@ -110,6 +120,8 @@ export class SystemStateService {
       ...s,
       quests: [newQuest, ...s.quests],
     }));
+    // [API] Atomic sync
+    this.syncStateToBackend();
   }
 
   toggleQuest(id: string) {
@@ -146,6 +158,7 @@ export class SystemStateService {
       }
 
       this.toastService.show('+XP gained', 'xp');
+      this.achievementService.checkAchievements().subscribe();
       const attributeToUpdate = TYPE_ATTRIBUTE[quest.type];
       const newAttributes = {
         ...s.attributes,
@@ -161,6 +174,8 @@ export class SystemStateService {
         attributes: newAttributes
       };
     });
+    // [API] Atomic sync
+    this.syncStateToBackend();
   }
 
   private getRankForLevel(lvl: number): Rank {
@@ -178,6 +193,8 @@ export class SystemStateService {
       ...s,
       quests: s.quests.filter(q => q.id !== id)
     }));
+    // [API] Atomic sync
+    this.syncStateToBackend();
   }
 
   addXP(amount: number) {
@@ -201,15 +218,14 @@ export class SystemStateService {
       return { ...s, xp: newXp, level: newLevel, maxXp: newMaxXp };
     });
 
-    this.userService.updateXP(amount).subscribe({
-      next: () => console.log('XP persisted to backend'),
-      error: (err) => console.error('Failed to sync XP', err)
-    });
+    // [API] Atomic sync
+    this.syncStateToBackend();
   }
 
   setStateFromApi(data: any) {
     this.state.update(s => ({
       ...s,
+      userName: data.displayName || data.email || s.userName,
       xp: data.xp || 0,
       level: data.level || 1,
       quests: data.quests || s.quests,

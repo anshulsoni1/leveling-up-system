@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { EmptyStateComponent } from '../../../../shared/components/empty-state/empty-state.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { JournalService, JournalEntry } from '../../../core/services/journal.service';
@@ -7,7 +8,7 @@ import { ToastService } from '../../../shared/services/toast.service';
 @Component({
   selector: 'app-journal',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, EmptyStateComponent],
   templateUrl: './journal.component.html',
   styleUrls: ['./journal.component.scss']
 })

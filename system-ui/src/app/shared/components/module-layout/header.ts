@@ -92,6 +92,14 @@ import { CommonModule } from '@angular/common';
       background: linear-gradient(90deg, transparent, $neon-cyan, transparent);
       box-shadow: $glow-soft;
     }
+    @media (max-width: 768px) {
+      .module-header { padding: 1rem; }
+      .header-main { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .module-title { font-size: 1.3rem; letter-spacing: 2px; }
+      .header-stats-container { width: 100%; justify-content: space-between; }
+      .basic-stat-badge { padding-left: 1rem; }
+      .system-value { font-size: 1rem; }
+    }
   `]
 })
 export class ModuleHeaderComponent {

@@ -26,6 +26,14 @@ const userSchema = new mongoose.Schema({
     type: Array,
     default: []
   },
+  displayName: {
+    type: String,
+    default: 'Shadow Monarch'
+  },
+  avatarUrl: {
+    type: String,
+    default: 'assets/images/placeholder.jpg'
+  },
   createdAt: {
     type: Date,
     default: Date.now

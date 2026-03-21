@@ -29,4 +29,8 @@ export class ModuleService {
   getModuleLogs(moduleId: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/module-logs/${moduleId}`);
   }
+
+  getAllModuleLogs(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/module-logs/all`);
+  }
 }
