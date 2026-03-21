@@ -1,0 +1,103 @@
+.toast-container {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  pointer-events: none;
+}
+
+.system-toast {
+  background: rgba(10, 15, 30, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 200, 255, 0.3);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  min-width: 300px;
+  box-shadow:
+    0 0 15px rgba(0, 200, 255, 0.1),
+    inset 0 0 10px rgba(0, 150, 255, 0.05);
+  animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.toast-icon {
+  font-size: 1.5rem;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+}
+
+.toast-message {
+  color: #fff;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  text-shadow: 0 0 4px rgba(0, 200, 255, 0.5);
+}
+
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00c8ff, #0055ff);
+  width: 100%;
+  animation: progressShrink 3s linear forwards;
+}
+
+/* Type variations */
+.toast-xp {
+  border-color: rgba(0, 255, 128, 0.4);
+  box-shadow: 0 0 15px rgba(0, 255, 128, 0.15);
+  .toast-progress { background: linear-gradient(90deg, #00ff80, #00aa55); }
+  .toast-message { text-shadow: 0 0 4px rgba(0, 255, 128, 0.5); }
+}
+
+.toast-level {
+  border-color: rgba(255, 215, 0, 0.4);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
+  .toast-progress { background: linear-gradient(90deg, #ffd700, #ffaa00); }
+  .toast-message { text-shadow: 0 0 4px rgba(255, 215, 0, 0.5); }
+}
+
+.toast-achievement {
+  border-color: rgba(180, 0, 255, 0.4);
+  box-shadow: 0 0 15px rgba(180, 0, 255, 0.15);
+  .toast-progress { background: linear-gradient(90deg, #b400ff, #7700ff); }
+  .toast-message { text-shadow: 0 0 4px rgba(180, 0, 255, 0.5); }
+}
+
+.toast-warning {
+  border-color: rgba(255, 50, 50, 0.4);
+  box-shadow: 0 0 15px rgba(255, 50, 50, 0.15);
+  .toast-progress { background: linear-gradient(90deg, #ff3232, #aa0000); }
+  .toast-message { text-shadow: 0 0 4px rgba(255, 50, 50, 0.5); }
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(50px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes progressShrink {
+  0% { width: 100%; }
+  100% { width: 0%; }
+}

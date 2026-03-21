@@ -15,6 +15,10 @@ export class ActivityService {
 
   constructor(private http: HttpClient, private achievementService: AchievementService) {}
 
+  getLastActivity(): Observable<any> {
+    return this.http.get(this.apiUrl + '/last');
+  }
+
   getActivity(): Observable<any> {
     return this.http.get(this.apiUrl).pipe(
       tap(res => this.activitiesCache.next(res))

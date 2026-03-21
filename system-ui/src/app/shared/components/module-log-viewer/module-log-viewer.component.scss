@@ -1,0 +1,86 @@
+.log-viewer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: rgba(10, 15, 25, 0.85);
+  border: 1px solid rgba(0, 234, 255, 0.3);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.panel-header {
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+
+.panel-title {
+  margin: 0;
+  color: #fff;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.system-dim {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.logs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 350px;
+  overflow-y: auto;
+  padding-right: 10px;
+
+  &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar-track { background: rgba(0,0,0,0.5); border-radius: 3px; }
+  &::-webkit-scrollbar-thumb { background: rgba(0, 234, 255, 0.5); border-radius: 3px; }
+}
+
+.log-card {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  align-items: center;
+  gap: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  border-left: 3px solid var(--system-cyan, #00eaff);
+  border-radius: 4px;
+  padding: 12px 15px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(0, 234, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 234, 255, 0.2);
+  }
+}
+
+.log-date {
+  color: #aaa;
+  font-family: monospace;
+  font-size: 0.85rem;
+}
+
+.log-desc {
+  color: #fff;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.log-xp {
+  color: var(--system-cyan, #00eaff);
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 1rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 30px;
+  font-family: monospace;
+}
+
+.glow-text {
+  text-shadow: 0 0 8px rgba(0, 234, 255, 0.8);
+}

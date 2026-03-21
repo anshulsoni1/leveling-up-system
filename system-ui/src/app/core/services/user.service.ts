@@ -15,6 +15,10 @@ export class UserService {
     return this.http.get(this.apiUrl + '/me');
   }
 
+  updateProfile(data: { displayName?: string; avatarUrl?: string }): Observable<any> {
+    return this.http.patch(this.apiUrl, data);
+  }
+
   updateXP(delta: number): Observable<any> {
     return this.http.patch(this.apiUrl + '/xp', { delta }).pipe(tap(() => this.achievementService.checkAchievements().subscribe()));
   }

@@ -6,11 +6,12 @@ import { UserService } from '../../../core/services/user.service';
 import { BossService } from '../../../core/services/boss.service';
 import { SystemStateService } from '../../../shared/services/system-state.service';
 import { ModuleHeatmapComponent } from '../../../shared/components/module-layout/heatmap';
+import { ModuleLogViewerComponent } from '../../../shared/components/module-log-viewer/module-log-viewer.component';
 
 @Component({
   selector: 'app-module-page',
   standalone: true,
-  imports: [CommonModule, RouterModule, ModuleHeatmapComponent],
+  imports: [CommonModule, RouterModule, ModuleHeatmapComponent, ModuleLogViewerComponent],
   templateUrl: './module-page.component.html',
   styleUrl: './module-page.component.scss'
 })
@@ -126,7 +127,7 @@ export class ModulePageComponent implements OnInit {
         this.loadLogs();
         
         // Deal Boss Damage if active
-        this.bossService.dealDamage(50);
+        // this.bossService.dealDamage(50); // disabled in module page to use boss panel attack button
         
         // Refetch module to update local XP display without breaking old flow
         this.moduleService.getModules().subscribe((res: any[]) => {

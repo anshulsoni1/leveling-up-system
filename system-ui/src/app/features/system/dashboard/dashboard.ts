@@ -5,6 +5,10 @@ import { XpEngineService } from '../../../core/services/xp-engine.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SystemStateService, QuestType, QuestDifficulty } from '../../../shared/services/system-state.service';
+import { ActivityService } from '../../../core/services/activity.service';
+import { ToastService } from '../../../shared/services/toast.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { QuestItemComponent } from '../components/quest-item/quest-item.component';
 import { QuestCreatePanelComponent } from '../components/quest-create-panel/quest-create-panel.component';
 import { CreateModuleComponent } from '../create-module/create-module.component';
@@ -45,12 +49,15 @@ export class SystemDashboard implements OnInit {
   private stateService = inject(SystemStateService);
   private bossService = inject(BossService);
   private userService = inject(UserService);
+  private activityService = inject(ActivityService);
+  private toastService = inject(ToastService);
 
   private moduleService = inject(ModuleService);
   xpEngine = inject(XpEngineService);
 
   quests = this.stateService.quests;
   customModules = signal<any[]>([]);
+  streakWarning = signal<boolean>(false);
 
   ngOnInit() {
     this.userService.getMe().subscribe((res: any) => {

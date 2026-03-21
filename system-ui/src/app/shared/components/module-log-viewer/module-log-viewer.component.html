@@ -1,0 +1,17 @@
+<div class="log-viewer-container hud-panel">
+  <div class="panel-header">
+    <h2 class="panel-title">SYSTEM LOGS <span class="system-dim" *ngIf="moduleId">[{{ moduleId | uppercase }}]</span></h2>
+  </div>
+  
+  <div class="logs-list">
+    <div *ngIf="logs().length === 0" class="empty-state">
+      <span class="system-dim">> AWAITING LOG DATA...</span>
+    </div>
+    
+    <div *ngFor="let log of logs()" class="log-card glow-hover">
+      <div class="log-date">{{ (log.date || log.createdAt || log.timestamp) | date:'MMM d' }}</div>
+      <div class="log-desc">{{ log.description || log.message || 'Solved activity / Module practice' }}</div>
+      <div class="log-xp glow-text" *ngIf="log.xpAwarded || log.value">+{{ log.xpAwarded || log.value }} XP</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="journal-wrapper" style="padding: 20px;">
+  <div class="system-header" style="margin-bottom: 2rem;">
+    <h1 class="glow-title">SYSTEM JOURNAL</h1>
+  </div>
+
+  <div class="editor-card hud-panel">
+    <div class="card-glow"></div>
+    <div class="editor-header">
+      <span class="system-label" style="color: #aaa; font-weight: bold; letter-spacing: 2px; font-size: 0.85rem;">NEW ENTRY LOG</span>
+    </div>
+    
+    <textarea 
+      class="journal-textarea" 
+      [ngModel]="newEntryContent()" 
+      (ngModelChange)="newEntryContent.set($event)"
+      placeholder="Record your thoughts, Hunter..."></textarea>
+      
+    <div class="editor-footer">
+      <button class="save-btn glow-hover" [disabled]="isSubmitting() || !newEntryContent().trim()" (click)="saveEntry()">
+        {{ isSubmitting() ? 'SAVING...' : 'SAVE ENTRY' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="entries-section" style="margin-top: 3rem;">
+    <div class="panel-header" style="margin-bottom: 1.5rem;">
+      <h2 class="panel-title" style="color: #fff; font-size: 1.4rem; letter-spacing: 2px;">PREVIOUS LOGS</h2>
+    </div>
+    
+    <div class="entries-list">
+      <div *ngIf="entries().length === 0" class="empty-state">
+        <span class="system-dim">NO ARCHIVED LOGS FOUND</span>
+      </div>
+      
+      <div *ngFor="let entry of entries()" class="entry-card glow-hover">
+        <div class="entry-header">
+          <span class="entry-date">{{ entry.createdAt | date:'medium' }}</span>
+        </div>
+        <div class="entry-content">
+          <pre class="markdown-text">{{ entry.content }}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

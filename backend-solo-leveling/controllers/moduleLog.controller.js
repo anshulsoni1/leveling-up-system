@@ -65,6 +65,32 @@ const logActivity = async (req, res) => {
   }
 };
 
+
+const getAllLogs = async (req, res) => {
+  try {
+    const logs = await ModuleLog.find({ userId: req.userId }).sort({ date: -1 });
+
+    const grouped = {
+      books: [],
+      dsa: [],
+      skills: [],
+      custom: []
+    };
+
+    logs.forEach(log => {
+      if (['books', 'dsa', 'skills'].includes(log.moduleId)) {
+        grouped[log.moduleId].push(log);
+      } else {
+        grouped.custom.push(log);
+      }
+    });
+
+    res.status(200).json(grouped);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching all logs', error: error.message });
+  }
+};
+
 const getModuleLogs = async (req, res) => {
   try {
     const { moduleId } = req.params;
@@ -92,4 +118,4 @@ const deleteLog = async (req, res) => {
   }
 };
 
-module.exports = { logActivity, getModuleLogs, deleteLog };
+module.exports = { logActivity, getModuleLogs, getAllLogs, deleteLog };

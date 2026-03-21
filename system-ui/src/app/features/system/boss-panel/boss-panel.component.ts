@@ -1,6 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BossService } from '../../../core/services/boss.service';
+import { SystemStateService } from '../../../shared/services/system-state.service';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-boss-panel',
@@ -12,6 +14,7 @@ import { BossService } from '../../../core/services/boss.service';
           <div class="boss-icon">☠️</div>
           <div class="boss-info">
              <h3 class="danger-title">{{ boss.name }}</h3>
+             <button style="background: transparent; border: 1px solid #ff3333; color: #ff3333; cursor: pointer; border-radius: 4px; padding: 2px 8px; margin-left: 10px;" (click)="attackBoss(boss._id, 50)">ATTACK</button>
              <div class="boss-hp-text">HP: {{ getHpBar(boss.hp, boss.maxHp) }}</div>
           </div>
        </div>
@@ -98,6 +101,22 @@ import { BossService } from '../../../core/services/boss.service';
 })
 export class BossPanelComponent {
   bossService = inject(BossService);
+  stateService = inject(SystemStateService);
+  toastService = inject(ToastService);
+
+  attackBoss(bossId: string, dmg: number) {
+    this.bossService.dealDamage(dmg).subscribe((res: any) => {
+       const current = this.bossService.boss();
+       if (current) {
+          this.bossService.boss.set({ ...current, hp: res.hp });
+       }
+       if (res.defeated) {
+          this.bossService.boss.set(null);
+          this.toastService.show('BOSS DEFEATED', 'warning');
+          this.stateService.addXP(500);
+       }
+    });
+  }
 
   getHpBar(hp: number, maxHp: number): string {
     const totalBlocks = 10;

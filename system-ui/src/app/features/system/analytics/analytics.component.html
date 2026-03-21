@@ -1,0 +1,36 @@
+<div class="analytics-wrapper" style="padding: 20px;">
+  <div class="system-header" style="margin-bottom: 2rem;">
+    <h1 class="glow-title">SYSTEM ANALYTICS</h1>
+    <div class="score-card hud-panel glow-hover">
+      <div class="card-glow"></div>
+      <span class="system-label" style="color: #aaa; font-weight: bold; letter-spacing: 2px; font-size: 0.75rem;">WEEKLY PRODUCTIVITY SCORE</span>
+      <h2 class="score-value glow-text" style="color: #fff; margin: 5px 0 0 0; font-size: 2rem;">{{ weeklyScore() }}</h2>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+    <div class="chart-panel hud-panel glow-hover">
+      <div class="card-glow"></div>
+      <h3 class="panel-title">XP Progression</h3>
+      <div class="chart-container">
+        <canvas #xpChart></canvas>
+      </div>
+    </div>
+
+    <div class="chart-panel hud-panel glow-hover">
+       <div class="card-glow"></div>
+       <h3 class="panel-title">Activity Frequency</h3>
+       <div class="chart-container">
+         <canvas #activityChart></canvas>
+       </div>
+    </div>
+
+    <div class="chart-panel hud-panel glow-hover module-panel">
+       <div class="card-glow"></div>
+       <h3 class="panel-title">Module Distribution</h3>
+       <div class="chart-container">
+         <canvas #modulePieChart></canvas>
+       </div>
+    </div>
+  </div>
+</div>

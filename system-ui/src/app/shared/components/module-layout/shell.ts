@@ -5,6 +5,7 @@ import { filter, Subscription } from 'rxjs';
 import { ModuleHeaderComponent } from './header';
 import { ModuleHeatmapComponent } from './heatmap';
 import { ModuleJournalComponent } from './journal';
+import { ModuleLogViewerComponent } from '../module-log-viewer/module-log-viewer.component';
 
 @Component({
   selector: 'app-module-shell',
@@ -13,7 +14,8 @@ import { ModuleJournalComponent } from './journal';
     CommonModule, 
     ModuleHeaderComponent, 
     ModuleHeatmapComponent, 
-    ModuleJournalComponent
+    ModuleJournalComponent,
+    ModuleLogViewerComponent
   ],
   template: `
     <div class="module-shell-container">
@@ -34,6 +36,7 @@ import { ModuleJournalComponent } from './journal';
           </div>
         </div>
         <app-module-journal [moduleName]="currentModule"></app-module-journal>
+        <app-module-log-viewer [moduleId]="currentModule"></app-module-log-viewer>
       </div>
     </div>
   `,

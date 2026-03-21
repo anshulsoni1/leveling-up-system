@@ -33,23 +33,6 @@
     </div>
 
     <!-- History Panel -->
-    <div class="hud-panel logs-panel">
-      <div class="panel-header" style="margin-bottom: 1.5rem; justify-content: space-between;">
-        <h2 class="panel-title">ACTIVITY HISTORY</h2>
-        <span class="system-value glow-text">TOTAL LOGS: {{ logs().length }}</span>
-      </div>
-
-      <div class="logs-list">
-        <div *ngFor="let log of logs()" class="log-item">
-          <div class="log-date">{{ log.date | date:'mediumDate' }}</div>
-          <div class="log-value"><span class="system-label" style="font-size: 0.8rem; margin-right: 0.5rem">+VALUE</span> <span class="system-value">{{ log.value }}</span></div>
-          <div class="log-xp" *ngIf="log.xpAwarded > 0"><span class="system-value glow-text">+{{ log.xpAwarded }} XP</span></div>
-        </div>
-
-        <div *ngIf="logs().length === 0" class="empty-state" style="padding: 2rem; text-align: center; color: var(--system-dim);">
-          NO LOGS DETECTED IN STORAGE MATRIX.
-        </div>
-      </div>
-    </div>
+    <app-module-log-viewer [moduleId]="moduleId"></app-module-log-viewer>
   </div>
 </div>

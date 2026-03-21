@@ -7,6 +7,9 @@ import { BooksComponent } from './modules/books/books.component';
 import { ModulePageComponent } from './module-page/module-page.component';
 import { DsaComponent } from './modules/dsa/dsa.component';
 import { SkillsComponent } from './modules/skills/skills.component';
+import { JournalComponent } from './journal/journal.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   { 
@@ -18,6 +21,9 @@ const routes: Routes = [
       { path: 'module/:id', component: ModulePageComponent },
       { path: 'dsa', component: DsaComponent },
       { path: 'skills', component: SkillsComponent },
+      { path: 'journal', component: JournalComponent },
+      { path: 'analytics', component: AnalyticsComponent },
+      { path: 'profile', component: ProfileComponent },
     ]
   }
 ];

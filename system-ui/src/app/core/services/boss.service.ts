@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ToastService } from '../../shared/services/toast.service';
 import { UserService } from './user.service';
 
 export interface BossData {
@@ -19,7 +20,7 @@ export class BossService {
   boss = signal<BossData | null>(null);
   private apiUrl = 'https://leveling-up-system-1.onrender.com/api/boss';
 
-  constructor(private http: HttpClient, private userService: UserService) {}
+  constructor(private http: HttpClient, private userService: UserService, private toastService: ToastService) {}
 
   checkAndSpawnBoss(inactiveDays: number) {
     this.http.get<BossData | null>(`${this.apiUrl}/current?inactiveDays=${inactiveDays}`)
@@ -29,6 +30,7 @@ export class BossService {
             this.boss.set(data);
           } else {
             this.boss.set(null);
+       this.toastService.show('BOSS DEFEATED', 'warning');
           }
         },
         error: (err) => console.error('Failed to fetch Boss State', err)
@@ -36,17 +38,6 @@ export class BossService {
   }
 
   dealDamage(amount: number) {
-    // Only local simulation for now since backend damage route wasn't explicitly requested yet
-    // Kept to avoid breaking module-page.component.ts calls
-    const current = this.boss();
-    if (!current || !current.active) return;
-    
-    current.hp -= amount;
-    if (current.hp <= 0) {
-       this.boss.set(null);
-       this.userService.updateXP(100).subscribe();
-    } else {
-       this.boss.set({...current});
-    }
+    return this.http.post<{hp: number, defeated: boolean}>(`${this.apiUrl}/damage`, { damage: amount });
   }
 }

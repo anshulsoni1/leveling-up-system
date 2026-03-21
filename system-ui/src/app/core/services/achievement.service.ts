@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ToastService } from '../../shared/services/toast.service';
 import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 
 @Injectable({
@@ -10,13 +11,10 @@ export class AchievementService {
   
   private achievementsCache = new BehaviorSubject<any[]>([]);
   achievements$ = this.achievementsCache.asObservable();
-  
   // Global event emitter for the Toast Notification system
   private unlockEvent = new Subject<any[]>();
   unlocks$ = this.unlockEvent.asObservable();
-
-  constructor(private http: HttpClient) {}
-
+  constructor(private http: HttpClient, private toastService: ToastService) {}
   getAchievements(): Observable<any> {
      return this.http.get<{achievements: any[]}>(this.apiUrl).pipe(
        tap(res => {
@@ -26,7 +24,6 @@ export class AchievementService {
        })
      );
   }
-
   checkAchievements(): Observable<any> {
      return this.http.post<{achievements: any[], newUnlocks: boolean}>(this.apiUrl + '/check', {}).pipe(
         tap(res => {
@@ -38,6 +35,7 @@ export class AchievementService {
                    const newItems = res.achievements.filter(a => !oldList.some(o => o.key === a.key));
                    if (newItems.length > 0) {
                       this.unlockEvent.next(newItems);
+                      this.toastService.show('ACHIEVEMENT UNLOCKED', 'achievement');
                    }
                }
                this.achievementsCache.next(res.achievements);

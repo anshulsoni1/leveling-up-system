@@ -1,0 +1,81 @@
+<div class="profile-wrapper">
+  <div class="system-header">
+    <h1 class="glow-title">HUNTER PROFILE</h1>
+  </div>
+
+  <!-- Top Hero Card -->
+  <div class="hero-card hud-panel glow-hover">
+    <div class="card-glow"></div>
+    <div class="hero-content">
+      <div class="avatar-container">
+        <img *ngIf="userProfile()?.avatarUrl; else noAvatar" [src]="userProfile()?.avatarUrl" alt="Avatar" class="avatar-img">
+        <ng-template #noAvatar>
+          <div class="avatar-placeholder">👤</div>
+        </ng-template>
+      </div>
+      
+      <div class="hero-info">
+        <h2 class="display-name">{{ userProfile()?.displayName || userProfile()?.email || 'Unknown Hunter' }}</h2>
+        <p class="email-text system-dim">{{ userProfile()?.email || 'hunter@system.local' }}</p>
+        <p class="join-date system-dim" *ngIf="userProfile()?.createdAt">
+          AWAKENED: {{ userProfile()?.createdAt | date:'mediumDate' }}
+        </p>
+      </div>
+
+      <div class="rank-badge-large">
+        <span class="rank-letter">{{ stateService.rank() }}</span>
+        <span class="rank-label">RANK</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="stats-grid">
+    <div class="stat-box hud-panel glow-hover">
+      <div class="card-glow"></div>
+      <span class="system-label">CURRENT LEVEL</span>
+      <h2 class="stat-value glow-text">{{ stateService.level() }}</h2>
+    </div>
+    
+    <div class="stat-box hud-panel glow-hover">
+      <div class="card-glow"></div>
+      <span class="system-label">TOTAL XP</span>
+      <h2 class="stat-value glow-text">{{ stateService.xp() }}</h2>
+    </div>
+    
+    <div class="stat-box hud-panel glow-hover">
+      <div class="card-glow"></div>
+      <span class="system-label">DISCIPLINE SCORE</span>
+      <!-- Using custom logic or directly grabbing attribute -->
+      <h2 class="stat-value glow-text">{{ stateService.attributes().discipline || 10 }}</h2>
+    </div>
+    
+    <div class="stat-box hud-panel glow-hover">
+      <div class="card-glow"></div>
+      <span class="system-label">MAX XP TO NEXT</span>
+      <h2 class="stat-value glow-text">{{ stateService.maxXp() }}</h2>
+    </div>
+  </div>
+
+  <!-- Edit Settings Card -->
+  <div class="settings-card hud-panel">
+    <div class="panel-header">
+      <h2 class="panel-title">SYSTEM PREFERENCES</h2>
+    </div>
+    <div class="form-container">
+      <div class="form-group">
+        <label class="system-label">DESIGNATION (DISPLAY NAME)</label>
+        <input type="text" class="system-input" [ngModel]="editDisplayName()" (ngModelChange)="editDisplayName.set($event)" placeholder="Enter new designation...">
+      </div>
+      
+      <div class="form-group">
+        <label class="system-label">AVATAR OVERRIDE (URL)</label>
+        <input type="text" class="system-input" [ngModel]="editAvatarUrl()" (ngModelChange)="editAvatarUrl.set($event)" placeholder="https://example.com/avatar.png">
+      </div>
+      
+      <button class="save-btn glow-hover" [disabled]="isSubmitting()" (click)="saveProfile()">
+        {{ isSubmitting() ? 'TRANSMITTING...' : 'UPDATE SYSTEM DATA' }}
+      </button>
+    </div>
+  </div>
+</div>

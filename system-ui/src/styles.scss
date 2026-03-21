@@ -1,3 +1,82 @@
 @use 'app/shared/styles/system-theme';
 @use 'app/shared/styles/system-typography';
 @use 'app/shared/styles/system-utilities';
+\n
+/* ==========================================================================
+   Responsive Architecture & Layout System
+   ========================================================================== */
+
+/* Tablet Breakpoint (1024px) */
+@media (max-width: 1024px) {
+  .dashboard-grid, .panels-grid, .modules-grid, .stats-grid, app-system-dashboard > div {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .module-card {
+    min-width: 100%;
+  }
+
+  app-hunter-status-panel .hunter-card, .hud-panel {
+    padding: 15px !important;
+  }
+}
+
+/* Mobile Breakpoint (768px) */
+@media (max-width: 768px) {
+  .dashboard-container, .system-wrapper, .module-shell-container, .analytics-wrapper {
+    padding: 10px !important;
+    gap: 1.5rem;
+  }
+
+  .stats-panel, .header-section {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem;
+    
+    .stat-box {
+      width: 100%;
+    }
+  }
+  
+  .heatmap-container, app-module-heatmap {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 15px;
+    
+    .heatmap-wrapper, .heatmap-grid {
+      min-width: 700px;
+    }
+  }
+
+  .glow-title, .page-title {
+    font-size: 1.6rem !important;
+  }
+  
+  .system-value, .stat-value {
+    font-size: 2rem !important;
+  }
+
+  .form-group .system-input {
+    font-size: 1rem;
+    padding: 10px;
+  }
+  
+  .save-btn, .log-btn, .action-btn {
+    width: 100%;
+  }
+  
+  .log-viewer-container, .journal-wrapper, .settings-card, .editor-card {
+    padding: 15px !important;
+  }
+  
+  .hero-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+}

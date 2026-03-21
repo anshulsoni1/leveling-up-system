@@ -2,6 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface JournalEntry {
+  _id?: string;
+  content: string;
+  createdAt: Date | string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,15 +16,11 @@ export class JournalService {
 
   constructor(private http: HttpClient) {}
 
-  getJournal(moduleName: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${moduleName}`);
+  getEntries(): Observable<JournalEntry[]> {
+    return this.http.get<JournalEntry[]>(this.apiUrl);
   }
 
-  addEntry(moduleName: string, text: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${moduleName}`, { text });
-  }
-
-  deleteEntry(moduleName: string, id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${moduleName}/${id}`);
+  addEntry(content: string): Observable<JournalEntry> {
+    return this.http.post<JournalEntry>(this.apiUrl, { content });
   }
 }

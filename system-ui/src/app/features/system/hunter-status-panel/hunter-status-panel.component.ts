@@ -1,5 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { StatBarComponent } from '../../../shared/components/stat-bar/stat-bar.component';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
+import { ToastService } from '../../../shared/services/toast.service';
 import { SystemStateService } from '../../../shared/services/system-state.service';
 import { BossService } from '../../../core/services/boss.service';
 import { XpEngineService } from '../../../core/services/xp-engine.service';
@@ -7,9 +11,10 @@ import { XpEngineService } from '../../../core/services/xp-engine.service';
 @Component({
   selector: 'app-hunter-status-panel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, StatBarComponent],
   template: `
     <div class="hunter-status-card" [ngClass]="statusState + '-state'">
+      <button class="logout-btn" (click)="logout()">LOGOUT</button>
       <div class="status-header">
         <div class="rank-badge">
           <span class="rank-letter">{{ state.rank() }}</span>
@@ -24,25 +29,47 @@ import { XpEngineService } from '../../../core/services/xp-engine.service';
         </div>
       </div>
 
-      <div class="discipline-section">
-        <div class="d-header">
-           <span>DISCIPLINE SCORE</span>
-           <span>{{ disciplineScore }} / 100</span>
-        </div>
-        <div class="d-track">
-           <div class="d-fill" [style.width.%]="disciplineScore"></div>
-        </div>
+      <div class="stats-grid">
+        <app-stat-bar label="Strength" [value]="state.attributes().strength" [max]="100"></app-stat-bar>
+        <app-stat-bar label="Intelligence" [value]="state.attributes().intelligence" [max]="100"></app-stat-bar>
+        <app-stat-bar label="Consistency" [value]="state.attributes().consistency" [max]="100"></app-stat-bar>
+        <app-stat-bar label="Discipline" [value]="state.attributes().discipline" [max]="100"></app-stat-bar>
       </div>
     </div>
   `,
   styles: [`
     .hunter-status-card {
+       position: relative;
        background: rgba(10, 15, 25, 0.85);
        border: 1px solid var(--system-cyan);
        border-radius: 8px;
        padding: 20px;
        margin-bottom: 24px;
        transition: all 0.3s ease;
+    }
+    .logout-btn {
+       position: absolute;
+       top: 15px;
+       right: 15px;
+       background: transparent;
+       border: 1px solid var(--system-cyan);
+       color: var(--system-cyan);
+       padding: 4px 12px;
+       font-size: 0.75rem;
+       font-weight: bold;
+       letter-spacing: 1.5px;
+       border-radius: 4px;
+       cursor: pointer;
+       transition: all 0.3s ease;
+       text-transform: uppercase;
+       z-index: 10;
+       box-shadow: 0 0 5px rgba(0, 234, 255, 0.2);
+    }
+    
+    .logout-btn:hover {
+       background: rgba(0, 234, 255, 0.1);
+       box-shadow: 0 0 10px var(--system-cyan);
+       text-shadow: 0 0 5px var(--system-cyan);
     }
     
     .status-header {
@@ -96,30 +123,16 @@ import { XpEngineService } from '../../../core/services/xp-engine.service';
        transition: color 0.3s ease;
     }
     
-    .discipline-section {
+    .stats-grid {
+       display: grid;
+       grid-template-columns: 1fr 1fr;
+       gap: 15px;
        width: 100%;
     }
-    .d-header {
-       display: flex;
-       justify-content: space-between;
-       color: #aaa;
-       font-size: 0.85rem;
-       font-weight: bold;
-       letter-spacing: 1.5px;
-       margin-bottom: 8px;
-    }
-    .d-track {
-       height: 12px;
-       background: rgba(0,0,0,0.6);
-       border-radius: 6px;
-       overflow: hidden;
-       border: 1px solid rgba(255,255,255,0.1);
-    }
-    .d-fill {
-       height: 100%;
-       background: linear-gradient(90deg, #0088ff, #00eaff);
-       box-shadow: 0 0 10px #00eaff;
-       transition: width 1s ease, background 0.3s ease, box-shadow 0.3s ease;
+    @media (max-width: 600px) {
+       .stats-grid {
+          grid-template-columns: 1fr;
+       }
     }
 
     /* STABLE STATE - CYAN */
@@ -186,8 +199,17 @@ export class HunterStatusPanelComponent {
   state = inject(SystemStateService);
   bossService = inject(BossService);
   xpEngine = inject(XpEngineService);
+  authService = inject(AuthService);
+  toastService = inject(ToastService);
+  router = inject(Router);
 
-  disciplineScore = 85; 
+  disciplineScore = 85;
+
+  logout() {
+    this.authService.logout();
+    this.toastService.show('System Disconnected', 'warning');
+    this.router.navigate(['/']);
+  } 
 
   get statusState(): 'stable' | 'danger' | 'boss' {
     if (this.bossService.boss() != null) return 'boss';

@@ -1,5 +1,7 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
+import { ToastService } from './toast.service';
 import { Subject } from 'rxjs';
+import { UserService } from '../../core/services/user.service';
 
 export type QuestType = 'workout' | 'study' | 'habit' | 'challenge';
 export type QuestDifficulty = 'easy' | 'medium' | 'hard';
@@ -87,6 +89,9 @@ export class SystemStateService {
     return 'E';
   });
 
+  private toastService = inject(ToastService);
+  private userService = inject(UserService);
+
   constructor() {
   }
 
@@ -131,6 +136,7 @@ export class SystemStateService {
 
       if (newLevel > prevLevel) {
         setTimeout(() => {
+          this.toastService.show('LEVEL UP', 'level');
           this.levelUpSubject.next({
             previous: prevLevel,
             current: newLevel,
@@ -139,6 +145,7 @@ export class SystemStateService {
         });
       }
 
+      this.toastService.show('+XP gained', 'xp');
       const attributeToUpdate = TYPE_ATTRIBUTE[quest.type];
       const newAttributes = {
         ...s.attributes,
@@ -171,6 +178,33 @@ export class SystemStateService {
       ...s,
       quests: s.quests.filter(q => q.id !== id)
     }));
+  }
+
+  addXP(amount: number) {
+    this.state.update((s) => {
+      let newXp = Number(s.xp) + Number(amount);
+      let newLevel = Number(s.level);
+      let newMaxXp = Number(s.maxXp);
+      const prevLevel = newLevel;
+      const multiplier = 5000;
+      while (newXp >= newMaxXp) {
+        newXp -= newMaxXp;
+        newLevel++;
+        newMaxXp = multiplier * newLevel;
+      }
+      if (newLevel > prevLevel) {
+        setTimeout(() => {
+          this.toastService.show('LEVEL UP', 'level');
+          this.levelUpSubject.next({ previous: prevLevel, current: newLevel, rank: this.getRankForLevel(newLevel) });
+        });
+      }
+      return { ...s, xp: newXp, level: newLevel, maxXp: newMaxXp };
+    });
+
+    this.userService.updateXP(amount).subscribe({
+      next: () => console.log('XP persisted to backend'),
+      error: (err) => console.error('Failed to sync XP', err)
+    });
   }
 
   setStateFromApi(data: any) {

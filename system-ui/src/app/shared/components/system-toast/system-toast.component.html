@@ -1,0 +1,21 @@
+<div class="toast-container">
+  @for (toast of toasts; track toast.id) {
+    <div class="system-toast" [class]="'toast-' + toast.type">
+      <div class="toast-content">
+        <span class="toast-icon">
+          @if (toast.type === 'xp') {
+            ✨
+          } @else if (toast.type === 'level') {
+            ⬆️
+          } @else if (toast.type === 'achievement') {
+            🏆
+          } @else if (toast.type === 'warning') {
+            ⚠️
+          }
+        </span>
+        <span class="toast-message">{{ toast.message }}</span>
+      </div>
+      <div class="toast-progress"></div>
+    </div>
+  }
+</div>
