@@ -17,7 +17,7 @@ import { DailyQuestsComponent } from '../daily-quests/daily-quests.component';
 import { BossPanelComponent } from '../boss-panel/boss-panel.component';
 import { HunterStatusPanelComponent } from '../hunter-status-panel/hunter-status-panel.component';
 import { QuestPanelComponent } from '../quest-panel/quest-panel.component';
-import { EmptyStateComponent } from '../../../../shared/components/empty-state/empty-state.component';
+import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { BossService } from '../../../core/services/boss.service';
 import { AchievementService } from '../../../core/services/achievement.service';
 
@@ -42,7 +42,8 @@ interface ModuleCard {
     DailyQuestsComponent,
     BossPanelComponent,
     HunterStatusPanelComponent,
-    QuestPanelComponent
+    QuestPanelComponent,
+  EmptyStateComponent
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'

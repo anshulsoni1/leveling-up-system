@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { EmptyStateComponent } from '../../../../shared/components/empty-state/empty-state.component';
+import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { JournalService, JournalEntry } from '../../../core/services/journal.service';
