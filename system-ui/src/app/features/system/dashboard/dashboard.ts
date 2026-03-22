@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { SystemStateService, QuestType, QuestDifficulty } from '../../../shared/services/system-state.service';
 import { ActivityService } from '../../../core/services/activity.service';
 import { ToastService } from '../../../shared/services/toast.service';
+import { SoundService } from '../../../core/services/sound.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { QuestItemComponent } from '../components/quest-item/quest-item.component';
@@ -55,6 +56,7 @@ export class SystemDashboard implements OnInit {
   private userService = inject(UserService);
   private activityService = inject(ActivityService);
   private toastService = inject(ToastService);
+  private soundService = inject(SoundService);
 
   private moduleService = inject(ModuleService);
   xpEngine = inject(XpEngineService);
@@ -122,6 +124,7 @@ export class SystemDashboard implements OnInit {
 
   completeQuest(id: unknown) {
     if (typeof id === 'string') {
+      this.soundService.playSound('success');
       this.stateService.toggleQuest(id);
     }
   }

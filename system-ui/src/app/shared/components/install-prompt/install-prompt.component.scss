@@ -1,0 +1,18 @@
+.install-prompt-overlay {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  width: 350px;
+  max-width: calc(100vw - 40px);
+  animation: slideIn 0.5s ease-out;
+}
+.install-card {
+  padding: 20px;
+  background: rgba(10, 15, 25, 0.95);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 234, 255, 0.2) inset;
+}
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}

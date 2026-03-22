@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { UserService } from '../../../core/services/user.service';
 import { SystemStateService } from '../../../shared/services/system-state.service';
 import { ToastService } from '../../../shared/services/toast.service';
+import { SoundService } from '../../../core/services/sound.service';
 
 @Component({
   selector: 'app-profile',
@@ -16,6 +17,7 @@ export class ProfileComponent implements OnInit {
   private userService = inject(UserService);
   stateService = inject(SystemStateService);
   private toastService = inject(ToastService);
+  soundService = inject(SoundService);
 
   userProfile = signal<any>(null);
   

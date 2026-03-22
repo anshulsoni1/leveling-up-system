@@ -60,6 +60,19 @@
   <!-- Edit Settings Card -->
   <div class="settings-card hud-panel">
     <div class="panel-header">
+      <h2 class="panel-title">AUDIO SETTINGS</h2>
+    </div>
+    <div class="form-container" style="margin-bottom: 24px;">
+      <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+        <label class="system-label" style="margin: 0;">SYSTEM SOUNDS</label>
+        <button class="save-btn glow-hover" (click)="soundService.toggleSound()" [style.background]="soundService.getSoundEnabled() ? 'var(--system-cyan)' : 'transparent'" [style.color]="soundService.getSoundEnabled() ? '#000' : 'var(--system-cyan)'">
+          {{ soundService.getSoundEnabled() ? 'ENABLED' : 'DISABLED' }}
+        </button>
+      </div>
+    </div>
+    </div>
+    <div class="settings-card hud-panel">
+    <div class="panel-header">
       <h2 class="panel-title">SYSTEM PREFERENCES</h2>
     </div>
     <div class="form-container">

@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { QuestSystemService } from '../../../core/services/quest-system.service';
+import { SoundService } from '../../../core/services/sound.service';
 import { SystemStateService } from '../../../shared/services/system-state.service';
 
 @Component({
@@ -126,6 +127,7 @@ import { SystemStateService } from '../../../shared/services/system-state.servic
 })
 export class QuestPanelComponent implements OnInit {
   private questService = inject(QuestSystemService);
+  private soundService = inject(SoundService);
   private state = inject(SystemStateService);
 
   quests: any[] = [];
@@ -143,6 +145,7 @@ export class QuestPanelComponent implements OnInit {
 
   completeQuest(quest: any) {
     if (quest.completed) return;
+    this.soundService.playSound('success');
     this.questService.completeQuest(quest._id).subscribe({
       next: (res: any) => {
          quest.completed = true;

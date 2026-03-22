@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BossService } from '../../../core/services/boss.service';
 import { SystemStateService } from '../../../shared/services/system-state.service';
 import { ToastService } from '../../../shared/services/toast.service';
+import { SoundService } from '../../../core/services/sound.service';
 
 @Component({
   selector: 'app-boss-panel',
@@ -103,8 +104,10 @@ export class BossPanelComponent {
   bossService = inject(BossService);
   stateService = inject(SystemStateService);
   toastService = inject(ToastService);
+  soundService = inject(SoundService);
 
   attackBoss(bossId: string, dmg: number) {
+    this.soundService.playSound('hit');
     this.bossService.dealDamage(dmg).subscribe((res: any) => {
        const current = this.bossService.boss();
        if (current) {
