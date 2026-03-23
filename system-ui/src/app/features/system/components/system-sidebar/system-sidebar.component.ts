@@ -21,6 +21,14 @@ import { AuthService } from '../../../../core/services/auth.service';
           <span class="nav-icon">◆</span>
           <span class="nav-label" *ngIf="!collapsed()">DASHBOARD</span>
         </a>
+        <a routerLink="/system/tasks" routerLinkActive="active" class="nav-item" title="Tasks">
+          <span class="nav-icon">📜</span>
+          <span class="nav-label" *ngIf="!collapsed()">TASKS</span>
+        </a>
+        <a routerLink="/system/templates" routerLinkActive="active" class="nav-item" title="Templates">
+          <span class="nav-icon">📋</span>
+          <span class="nav-label" *ngIf="!collapsed()">TEMPLATES</span>
+        </a>
         <a routerLink="/system/analytics" routerLinkActive="active" class="nav-item" title="Analytics">
           <span class="nav-icon">◈</span>
           <span class="nav-label" *ngIf="!collapsed()">ANALYTICS</span>
@@ -35,6 +43,10 @@ import { AuthService } from '../../../../core/services/auth.service';
         </a>
         <div class="nav-divider"></div>
         <span class="nav-section" *ngIf="!collapsed()">MODULES</span>
+        <a routerLink="/system/modules" routerLinkActive="active" class="nav-item" title="Modules">
+          <span class="nav-icon">⧉</span>
+          <span class="nav-label" *ngIf="!collapsed()">ALL MODULES</span>
+        </a>
         <a routerLink="/system/books" routerLinkActive="active" class="nav-item" title="Books">
           <span class="nav-icon">📖</span>
           <span class="nav-label" *ngIf="!collapsed()">BOOKS</span>
@@ -68,7 +80,7 @@ import { AuthService } from '../../../../core/services/auth.service';
       box-shadow: 4px 0 20px rgba(0, 150, 255, 0.08);
     }
     .sidebar.collapsed { width: 60px; }
-    .sidebar.collapsed .nav-item { justify-content: center; padding: 0.75rem; }
+    .sidebar.collapsed .nav-item { justify-content: center; padding: 0.75rem 0; }
     .toggle-btn {
       background: transparent; border: none; color: rgba(0, 200, 255, 0.6);
       cursor: pointer; padding: 0.5rem; text-align: right; font-size: 0.7rem; margin: 0 0.5rem 0.5rem;
@@ -84,36 +96,99 @@ import { AuthService } from '../../../../core/services/auth.service';
       font-family: 'Orbitron', sans-serif; font-size: 1rem; color: #00c8ff;
       letter-spacing: 3px; text-shadow: 0 0 10px rgba(0, 200, 255, 0.4);
     }
-    .nav-links { flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 0 0.5rem; overflow-y: auto; }
+    .nav-links { flex: 1; display: flex; flex-direction: column; gap: 4px; padding: 0 0.5rem; overflow-y: auto; }
     .nav-item {
-      display: flex; align-items: center; gap: 0.75rem;
-      padding: 0.75rem 1rem; color: rgba(180, 200, 220, 0.7);
-      text-decoration: none; font-family: 'Rajdhani', sans-serif;
-      font-size: 0.85rem; font-weight: 600; letter-spacing: 1.5px;
-      border-radius: 6px; transition: all 0.25s ease;
-      cursor: pointer; border: 1px solid transparent;
+      display: flex; 
+      align-items: center; 
+      gap: 1rem;
+      padding: 0.8rem 1rem; 
+      color: rgba(180, 200, 220, 0.7);
+      text-decoration: none; 
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem; 
+      font-weight: 600; 
+      letter-spacing: 1.5px;
+      border-radius: 6px; 
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer; 
+      border: 1px solid transparent;
+      border-left: 3px solid transparent;
+      height: 44px; // Consistent height for center alignment
     }
-    .nav-item:hover { color: #00c8ff; background: rgba(0, 200, 255, 0.06); border-color: rgba(0, 200, 255, 0.1); }
+    
+    .nav-icon { 
+      font-size: 1.1rem; 
+      width: 24px; 
+      height: 24px; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s ease; 
+    }
+
+    .nav-label { 
+      white-space: nowrap; 
+      line-height: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-item:hover { 
+      color: #00eaff; 
+      background: rgba(0, 234, 255, 0.05); 
+      border-left-color: rgba(0, 234, 255, 0.2);
+      
+      .nav-icon {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 5px rgba(0, 234, 255, 0.4));
+      }
+    }
+    
     .nav-item.active {
-      color: #00c8ff; background: rgba(0, 200, 255, 0.1);
-      border-color: rgba(0, 200, 255, 0.25);
-      box-shadow: inset 0 0 12px rgba(0, 200, 255, 0.05), 0 0 8px rgba(0, 200, 255, 0.1);
-      text-shadow: 0 0 8px rgba(0, 200, 255, 0.4);
+      color: #00eaff;
+      background: linear-gradient(90deg, rgba(0, 234, 255, 0.1) 0%, transparent 100%);
+      border-left-color: #00eaff;
+      border-radius: 0 6px 6px 0;
+      box-shadow: inset 4px 0 10px rgba(0, 234, 255, 0.05);
+      text-shadow: 0 0 10px rgba(0, 234, 255, 0.5);
+      
+      .nav-icon {
+        color: #00eaff;
+        filter: drop-shadow(0 0 5px rgba(0, 234, 255, 0.8));
+        transform: scale(1.05);
+      }
     }
-    .nav-icon { font-size: 1rem; min-width: 20px; text-align: center; }
-    .nav-label { white-space: nowrap; }
-    .nav-divider { height: 1px; background: rgba(0, 200, 255, 0.1); margin: 0.75rem 0.5rem; }
+
+    .nav-divider { 
+      height: 1px; 
+      background: rgba(0, 200, 255, 0.05); 
+      margin: 1.25rem 0.5rem 0.5rem; 
+    }
     .nav-section {
-      padding: 0.25rem 1rem; font-family: 'Orbitron', sans-serif;
-      font-size: 0.6rem; color: rgba(0, 200, 255, 0.35); letter-spacing: 2px;
+      padding: 0.25rem 1rem; 
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.6rem; 
+      color: rgba(0, 200, 255, 0.3); 
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
     }
     .sidebar-footer { padding: 0.5rem; border-top: 1px solid rgba(0, 200, 255, 0.1); }
-    .logout-btn { width: 100%; background: transparent; border: 1px solid transparent; color: rgba(255, 100, 100, 0.6); }
+    .logout-btn { 
+      width: 100%; 
+      background: transparent; 
+      border: 1px solid transparent; 
+      color: rgba(255, 100, 100, 0.6); 
+      border-left-width: 0; 
+      justify-content: flex-start;
+    }
     .logout-btn:hover { color: #ff4444; background: rgba(255, 68, 68, 0.08); border-color: rgba(255, 68, 68, 0.2); }
+    
     @media (max-width: 768px) {
       .sidebar { width: 60px; }
       .nav-label, .sidebar-brand, .nav-section { display: none !important; }
-      .nav-item { justify-content: center; padding: 0.75rem; }
+      .nav-item { justify-content: center; padding: 0.75rem 0; border-left-width: 0; }
     }
   `]
 })

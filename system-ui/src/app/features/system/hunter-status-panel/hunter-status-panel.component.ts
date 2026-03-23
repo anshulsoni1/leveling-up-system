@@ -23,6 +23,19 @@ import { XpEngineService } from '../../../core/services/xp-engine.service';
         
         <div class="info-block">
           <h2>LEVEL {{ state.level() }}</h2>
+          
+          <div class="xp-container">
+            <div class="xp-info">
+              <span class="xp-label">XP: {{ state.xp() }} / {{ state.maxXp() }}</span>
+            </div>
+            <div class="xp-bar-bg">
+              <div class="xp-bar-fill" [style.width.%]="(state.xp() / state.maxXp()) * 100"></div>
+            </div>
+            <div class="xp-remaining">
+              Next Level: {{ state.maxXp() - state.xp() }} XP remaining
+            </div>
+          </div>
+
           <div class="status-msg">
              {{ getStatusMessage() }}
           </div>
@@ -108,19 +121,81 @@ import { XpEngineService } from '../../../core/services/xp-engine.service';
        margin-top: 4px;
     }
     
+    .info-block {
+      flex: 1;
+    }
+
     .info-block h2 {
-       margin: 0 0 8px 0;
+       margin: 0 0 4px 0;
        font-size: 1.8rem;
        color: #fff;
        letter-spacing: 1px;
     }
+
+    .xp-container {
+      margin-bottom: 12px;
+      width: 100%;
+      max-width: 250px;
+    }
+
+    .xp-info {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 4px;
+    }
+
+    .xp-label {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: rgba(0, 234, 255, 0.85);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .xp-bar-bg {
+      width: 100%;
+      height: 6px;
+      background: rgba(0, 234, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 234, 255, 0.15);
+      position: relative;
+    }
+
+    .xp-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00c8ff, #0064ff);
+      box-shadow: 0 0 10px rgba(0, 234, 255, 0.6);
+      border-radius: 3px;
+      transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: left;
+      animation: fillProgress 1s ease-out;
+    }
+
+    @keyframes fillProgress {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+
+    .xp-remaining {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.7rem;
+      color: rgba(180, 210, 230, 0.45);
+      margin-top: 4px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 500;
+      text-align: left;
+    }
     
     .status-msg {
-       font-size: 1.1rem;
+       font-size: 0.9rem;
        font-weight: 600;
        letter-spacing: 1px;
        text-transform: uppercase;
        transition: color 0.3s ease;
+       opacity: 0.8;
     }
     
     .stats-grid {
@@ -163,7 +238,7 @@ import { XpEngineService } from '../../../core/services/xp-engine.service';
        color: #ff4400;
        animation: blink 1.5s infinite;
     }
-    .danger-state .d-fill {
+    .danger-state .xp-bar-fill {
        background: linear-gradient(90deg, #aa0000, #ff4400);
        box-shadow: 0 0 10px #ff4400;
     }
@@ -183,7 +258,7 @@ import { XpEngineService } from '../../../core/services/xp-engine.service';
        color: #d480ff;
        text-shadow: 0 0 5px #aa00ff;
     }
-    .boss-state .d-fill {
+    .boss-state .xp-bar-fill {
        background: linear-gradient(90deg, #550088, #aa00ff);
        box-shadow: 0 0 10px #aa00ff;
     }

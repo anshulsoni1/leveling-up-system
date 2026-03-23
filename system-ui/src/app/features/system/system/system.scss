@@ -4,12 +4,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
-  padding: 2rem;
+  padding: 16px 20px;
   box-sizing: border-box;
-  
-
 }
 
 .ml-2 { margin-left: 0.5rem; }
@@ -28,8 +26,9 @@
 // HEADER
 .system-header {
   width: 100%;
-  max-width: 800px;
-  margin-bottom: 2rem;
+  max-width: 1200px;
+  margin-bottom: 24px;
+  padding: 20px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -72,14 +71,15 @@
 }
 
 
-// MAIN GRID - Now used as a container for routed components
+// MAIN GRID - Container for routed components
 .hud-grid-content {
   display: block;
   width: 100%;
   max-width: 1200px;
+  margin: 0 auto;
 }
 
-// STATS (Moved to components if used in future, keeping for reference)
+// STATS
 .stats-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -87,7 +87,7 @@
 }
 
 .stat-card {
-  padding: 1.2rem;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -106,7 +106,7 @@
   }
 }
 
-// QUESTS (Styling remains here for quest-item component if it relies on global styles)
+// QUESTS
 .quests-list {
   display: flex;
   flex-direction: column;
@@ -114,7 +114,7 @@
 }
 
 .quest-card {
-  padding: 1rem 1.5rem;
+  padding: 16px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -181,7 +181,7 @@
 
 .summary-box {
   flex: 1;
-  padding: 1rem;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -207,7 +207,6 @@
   background: transparent;
   border: 1px solid $neon-cyan;
   color: $neon-cyan;
-  padding: 1.5rem; // Adjusted padding for layout if needed
   padding: 0.5rem 1rem;
   font-family: 'Orbitron', sans-serif;
   font-size: 0.8rem;

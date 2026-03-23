@@ -20,10 +20,11 @@
 .quest-row {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  padding: 1rem;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
   background: rgba(255, 255, 255, 0.02);
   border-left: 3px solid rgba(0, 234, 255, 0.3);
+  border-radius: 0 4px 4px 0;
   transition: all 0.3s ease;
   
   &:hover {
@@ -34,28 +35,35 @@
 }
 
 .quest-completed {
-  border-left-color: rgba(0, 255, 100, 0.6);
-  opacity: 0.8;
+  border-left-color: rgba(0, 255, 100, 0.4);
+  background: rgba(0, 255, 100, 0.02);
+  opacity: 0.6;
   
   &:hover {
-     border-left-color: rgba(0, 255, 100, 0.8);
-     box-shadow: inset 50px 0 50px -50px rgba(0, 255, 100, 0.1);
+     opacity: 0.8;
   }
   
   .quest-title {
-     color: rgba(255, 255, 255, 0.5);
+     color: rgba(255, 255, 255, 0.4);
      text-decoration: line-through;
   }
 }
 
-.quest-checkbox i {
-  font-size: 1.8rem;
-  transition: all 0.3s;
+.quest-checkbox {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.system-cyan {
-  color: rgba(0, 255, 100, 0.8);
-  text-shadow: 0 0 10px rgba(0, 255, 100, 0.3);
+.quest-checkbox i {
+  font-size: 1.6rem;
+  transition: all 0.2s;
+}
+
+.system-cyan-check {
+  color: #00ff88;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
 }
 
 .quest-details {
@@ -64,32 +72,60 @@
 
 .quest-title {
   margin: 0;
-  font-size: 1.1rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
   letter-spacing: 1px;
-  color: var(--system-light);
-  font-weight: 500;
-  family: 'Rajdhani', sans-serif;
+  color: #fff;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
+.quest-action {
+  margin: 0 0.5rem;
+}
+
+.complete-btn {
+  background: transparent;
+  color: var(--system-cyan);
+  border: 1px solid rgba(0, 234, 255, 0.4);
+  padding: 4px 10px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+  
+  &:hover {
+     background: rgba(0, 234, 255, 0.1);
+     border-color: var(--system-cyan);
+     box-shadow: 0 0 10px rgba(0, 234, 255, 0.3);
+  }
+}
+
 .quest-reward {
-  padding: 0.4rem 0.8rem;
-  background: rgba(0, 234, 255, 0.1);
-  border: 1px solid rgba(0, 234, 255, 0.3);
+  padding: 0.3rem 0.6rem;
+  background: rgba(0, 234, 255, 0.05);
+  border: 1px solid rgba(0, 234, 255, 0.2);
   border-radius: 4px;
+  min-width: 65px;
+  text-align: center;
   
   .xp-value {
      color: var(--system-cyan);
-     font-weight: bold;
-     letter-spacing: 1px;
+     font-family: 'Rajdhani', sans-serif;
+     font-size: 0.8rem;
+     font-weight: 700;
+     letter-spacing: 0.5px;
   }
 }
 
 .reward-claimed {
   background: transparent;
-  border-color: rgba(0, 255, 100, 0.2);
+  border-color: rgba(0, 255, 100, 0.1);
   
   .xp-value {
-     color: rgba(0, 255, 100, 0.6);
+     color: rgba(0, 255, 100, 0.5);
   }
 }

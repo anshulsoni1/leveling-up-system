@@ -3,7 +3,7 @@ import { UserService } from '../../../core/services/user.service';
 import { ModuleService } from '../../../core/services/module.service';
 import { XpEngineService } from '../../../core/services/xp-engine.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { SystemStateService, QuestType, QuestDifficulty } from '../../../shared/services/system-state.service';
 import { ActivityService } from '../../../core/services/activity.service';
 import { ToastService } from '../../../shared/services/toast.service';
@@ -12,8 +12,6 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { QuestItemComponent } from '../components/quest-item/quest-item.component';
 import { QuestCreatePanelComponent } from '../components/quest-create-panel/quest-create-panel.component';
-import { CreateModuleComponent } from '../create-module/create-module.component';
-import { ModuleTemplatesComponent } from '../module-templates/module-templates.component';
 import { DailyQuestsComponent } from '../daily-quests/daily-quests.component';
 import { BossPanelComponent } from '../boss-panel/boss-panel.component';
 import { HunterStatusPanelComponent } from '../hunter-status-panel/hunter-status-panel.component';
@@ -21,14 +19,6 @@ import { QuestPanelComponent } from '../quest-panel/quest-panel.component';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { BossService } from '../../../core/services/boss.service';
 import { AchievementService } from '../../../core/services/achievement.service';
-
-interface ModuleCard {
-  id: string;
-  name: string;
-  description: string;
-  streak: number;
-  route: string;
-}
 
 @Component({
   selector: 'app-dashboard',
@@ -38,8 +28,6 @@ interface ModuleCard {
     RouterModule,
     QuestItemComponent,
     QuestCreatePanelComponent,
-    CreateModuleComponent,
-    ModuleTemplatesComponent,
     DailyQuestsComponent,
     BossPanelComponent,
     HunterStatusPanelComponent,
@@ -57,12 +45,11 @@ export class SystemDashboard implements OnInit {
   private activityService = inject(ActivityService);
   private toastService = inject(ToastService);
   private soundService = inject(SoundService);
+  private router = inject(Router);
 
-  private moduleService = inject(ModuleService);
   xpEngine = inject(XpEngineService);
 
   quests = this.stateService.quests;
-  customModules = signal<any[]>([]);
   streakWarning = signal<boolean>(false);
 
   ngOnInit() {
@@ -79,42 +66,11 @@ export class SystemDashboard implements OnInit {
 
     // Check achievements on dashboard load
     this.achievementService.checkAchievements().subscribe();
-
-    this.moduleService.getModules().subscribe((res: any) => {
-      if (res) {
-        this.customModules.set(res);
-      }
-    });
   }
   showCreatePanel = signal(false);
-  showCreateModule = signal(false);
-
-  modules = signal<ModuleCard[]>([
-    {
-      id: 'books',
-      name: 'Book Reading',
-      description: 'Absorb knowledge through divine literature and ancient texts.',
-      streak: 7,
-      route: '/system/books'
-    },
-    {
-      id: 'dsa',
-      name: 'DSA Practice',
-      description: 'Master the logic of the abyss. Solve algorithmic challenges.',
-      streak: 12,
-      route: '/system/dsa'
-    },
-    {
-      id: 'skills',
-      name: 'Skill Learning',
-      description: 'Acquire new abilities and enhance your cognitive arsenal.',
-      streak: 4,
-      route: '/system/skills'
-    }
-  ]);
 
   toggleCreatePanel() {
-    this.showCreatePanel.update(v => !v);
+    this.router.navigate(['/system/tasks']);
   }
 
   addQuest(event: {title: string, type: QuestType, difficulty: QuestDifficulty}) {
@@ -127,26 +83,5 @@ export class SystemDashboard implements OnInit {
       this.soundService.playSound('success');
       this.stateService.toggleQuest(id);
     }
-  }
-
-  createModule() {
-    this.showCreateModule.set(true);
-  }
-
-  onModuleCreated() {
-    this.showCreateModule.set(false);
-    this.reloadModules();
-  }
-
-  onTemplateCreated() {
-    this.reloadModules();
-  }
-
-  reloadModules() {
-    this.moduleService.getModules().subscribe((res: any) => {
-      if (res) {
-        this.customModules.set(res);
-      }
-    });
   }
 }

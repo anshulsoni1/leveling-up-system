@@ -119,4 +119,29 @@ export class DailyQuestsComponent implements OnInit {
        }
     });
   }
+
+  completeQuest(id: string) {
+    const quest = this.quests.find(q => q.id === id);
+    if (!quest || quest.completed) return;
+
+    quest.completed = true;
+    const todayObj = new Date();
+    const todayStr = `${todayObj.getFullYear()}-${String(todayObj.getMonth() + 1).padStart(2, '0')}-${String(todayObj.getDate()).padStart(2, '0')}`;
+    const storageKey = `daily_quests_${todayStr}`;
+
+    let savedState: any = {};
+    if (typeof localStorage !== 'undefined') {
+      savedState = JSON.parse(localStorage.getItem(storageKey) || '{}');
+      savedState[id] = true;
+      localStorage.setItem(storageKey, JSON.stringify(savedState));
+    }
+
+    this.userService.updateXP(quest.reward).subscribe({
+      next: () => {
+        this.userService.getMe().subscribe((res: any) => {
+          if (res) this.stateService.setStateFromApi(res);
+        });
+      }
+    });
+  }
 }

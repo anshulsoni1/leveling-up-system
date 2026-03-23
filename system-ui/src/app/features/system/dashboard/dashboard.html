@@ -1,10 +1,9 @@
-<div class="dashboard-wrapper" style="display: flex; flex-direction: column; gap: 2rem;">
+<div class="dashboard-wrapper">
 
   <!-- System Header -->
   <div class="system-header">
-    <h1 style="color: var(--system-cyan); text-shadow: 0 0 10px var(--system-cyan); margin: 0; letter-spacing: 2px; font-size: 1.8rem;">SYSTEM COMMAND CENTER</h1>
+    <h1 style="color: var(--system-cyan); text-shadow: 0 0 10px var(--system-cyan); margin: 0; letter-spacing: 2px; font-size: 1.8rem;">QUICK ACTIONS</h1>
   </div>
-
 
   <!-- Quick Navigation -->
   <div class="quick-nav">
@@ -25,90 +24,40 @@
   <!-- Hunter Status Panel -->
   <app-hunter-status-panel></app-hunter-status-panel>
 
-  <!-- Daily Quests (auto-evaluated local quests) -->
-  <app-daily-quests></app-daily-quests>
-
   <!-- Quest Panel (API-driven quests) -->
   <app-quest-panel></app-quest-panel>
 
   <!-- Boss Panel -->
   <app-boss-panel></app-boss-panel>
 
-  <!-- Module Cards Grid -->
-  <div class="modules-grid">
-    <div *ngFor="let module of modules()"
-         class="hud-panel module-card glow-hover"
-         [routerLink]="module.route">
-      <div class="card-glow"></div>
-      <div class="module-info">
-        <h3 class="module-name">{{ module.name }}</h3>
-        <p class="module-desc">{{ module.description }}</p>
-        <div class="module-footer">
-          <div class="streak-badge">
-            <span class="system-label">STREAK:</span>
-            <span class="system-value glow-text">{{ module.streak }}</span>
-          </div>
-          <span class="enter-hint">ENTER >></span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Quick Start Templates Section -->
-  <app-module-templates (templateCreated)="onTemplateCreated()"></app-module-templates>
-
-  <!-- Custom Modules Section -->
-  <div class="custom-modules-section" style="margin-top: 2rem;">
-    <div class="panel-header">
-      <h2 class="panel-title">CUSTOM MODULES</h2>
-    </div>
-    <div class="modules-grid">
-      <div *ngFor="let module of customModules()"
-           class="hud-panel module-card glow-hover"
-           [routerLink]="['/system/module', module._id]">
-        <div class="card-glow"></div>
-        <div class="module-info">
-          <h3 class="module-name"><span class="module-icon" style="margin-right: 0.5rem">{{ module.icon }}</span>{{ module.name }}</h3>
-          <p class="module-desc">Category: {{ module.category | uppercase }}</p>
-          <div class="module-footer" style="margin-top: 1rem;">
-            <div class="streak-badge" *ngIf="module.features?.streak">
-              <span class="system-label">STREAK:</span>
-              <span class="system-value glow-text">0</span>
-            </div>
-            <span class="enter-hint">ENTER >></span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <button class="add-module-btn glow-hover"
-            style="margin-top: 1rem; width: 100%; border: 1px dashed var(--system-cyan); background: rgba(0, 234, 255, 0.05); padding: 1rem; color: var(--system-cyan); font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 2px;"
-            (click)="createModule()">
-      + Create Module
-    </button>
-  </div>
-
   <!-- Active Tasks Section -->
   <div class="hud-panel active-tasks-section">
     <div class="panel-header">
       <h2 class="panel-title">ACTIVE TASKS</h2>
-      <button class="add-quest-btn glow-hover" (click)="toggleCreatePanel()">+ NEW QUEST</button>
+      <div class="header-actions">
+        <a routerLink="/system/tasks" class="view-all-link">View All</a>
+        <a routerLink="/system/tasks" class="add-quest-btn glow-hover" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">+ NEW QUEST</a>
+      </div>
     </div>
 
     <div class="quests-list">
       <app-quest-item
-        *ngFor="let quest of quests()"
+        *ngFor="let quest of quests().slice(0, 3)"
         [quest]="quest"
         (complete)="completeQuest($event)">
       </app-quest-item>
+
+      <div *ngIf="quests().length > 3" class="tasks-footer">
+        <a routerLink="/system/tasks" class="view-all-tasks-btn">
+          View All Tasks ({{ quests().length }})
+        </a>
+      </div>
 
       <app-empty-state *ngIf="quests().length === 0"
         icon="⚔" title="NO ACTIVE TASKS DETECTED" subtitle="Start your journey — create your first quest"
         ctaLabel="CREATE QUEST" (ctaClick)="toggleCreatePanel()"></app-empty-state>
     </div>
   </div>
-
-  <app-create-module *ngIf="showCreateModule()" (close)="showCreateModule.set(false)" (moduleCreated)="onModuleCreated()"></app-create-module>
 
   <!-- Quest Creation Overlay -->
   <div class="create-overlay" *ngIf="showCreatePanel()">

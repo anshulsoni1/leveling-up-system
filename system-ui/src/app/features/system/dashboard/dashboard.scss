@@ -1,11 +1,13 @@
 @use '../../../shared/styles/system-theme' as *;
 
+// DASHBOARD WRAPPER — centered container
 .dashboard-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
   width: 100%;
   max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 20px;
   animation: slideUp 0.6s ease-out;
 }
 
@@ -14,7 +16,71 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+// =============================================
+// CONSISTENT VERTICAL SPACING
+// All major sections get 24px bottom margin
+// =============================================
+
+.system-header,
+app-hunter-status-panel,
+app-daily-quests,
+app-quest-panel,
+app-boss-panel,
+.modules-grid,
+app-module-templates,
+.custom-modules-section,
+.active-tasks-section,
+.quick-nav {
+  display: block;
+  margin-bottom: 24px;
+}
+
+// =============================================
+// QUICK NAVIGATION
+// =============================================
+
+.quick-nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.quick-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1.25rem;
+  background: rgba(0, 200, 255, 0.04);
+  border: 1px solid rgba(0, 200, 255, 0.15);
+  border-radius: 8px;
+  color: rgba(180, 210, 230, 0.8);
+  text-decoration: none;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.quick-nav-btn:hover {
+  color: #00c8ff;
+  background: rgba(0, 200, 255, 0.1);
+  border-color: rgba(0, 200, 255, 0.4);
+  box-shadow: 0 0 12px rgba(0, 200, 255, 0.15), inset 0 0 8px rgba(0, 200, 255, 0.05);
+  transform: translateY(-2px);
+}
+.qn-icon {
+  font-size: 1.1rem;
+}
+@media (max-width: 768px) {
+  .quick-nav { flex-direction: column; }
+  .quick-nav-btn { width: 100%; justify-content: center; }
+}
+
+// =============================================
 // MODULES GRID
+// =============================================
+
 .modules-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -33,7 +99,7 @@
 .module-card {
   position: relative;
   cursor: pointer;
-  padding: 1.5rem;
+  padding: 20px;
   min-height: 180px;
   display: flex;
   flex-direction: column;
@@ -128,9 +194,41 @@
   transition: all 0.3s ease;
 }
 
+// =============================================
+// CUSTOM MODULES SECTION
+// =============================================
+
+.custom-modules-section {
+  margin-top: 0; // Handled by global 24px spacing rule above
+}
+
+.add-module-btn {
+  margin-top: 16px;
+  width: 100%;
+  border: 1px dashed var(--system-cyan);
+  background: rgba(0, 234, 255, 0.05);
+  padding: 16px;
+  color: var(--system-cyan);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(0, 234, 255, 0.1);
+    border-style: solid;
+  }
+}
+
+// =============================================
 // ACTIVE TASKS SECTION
+// =============================================
+
 .active-tasks-section {
-  padding: 2rem;
+  padding: 20px;
   background: rgba($bg-deep, 0.4);
 }
 
@@ -146,6 +244,29 @@
     margin-bottom: 0;
     border-bottom: none;
     padding-bottom: 0;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .view-all-link {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgba($neon-cyan, 0.6);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      color: $neon-cyan;
+      text-shadow: 0 0 8px rgba($neon-cyan, 0.4);
+    }
   }
 }
 
@@ -172,12 +293,46 @@
   gap: 1.2rem;
 }
 
+.tasks-footer {
+  margin-top: 1rem;
+  text-align: center;
+  border-top: 1px solid rgba(0, 234, 255, 0.1);
+  padding-top: 1.5rem;
+}
+
+.view-all-tasks-btn {
+  display: inline-block;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #00eaff;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid rgba(0, 234, 255, 0.2);
+  border-radius: 4px;
+  background: rgba(0, 234, 255, 0.05);
+
+  &:hover {
+    background: rgba(0, 234, 255, 0.12);
+    box-shadow: 0 0 20px rgba(0, 234, 255, 0.25);
+    border-color: #00eaff;
+    transform: translateY(-2px);
+  }
+}
+
 .empty-state {
   text-align: center;
-  padding: 3rem;
+  padding: 20px;
   border: 1px dashed rgba($neon-cyan, 0.2);
   background: rgba($bg-deep, 0.2);
 }
+
+// =============================================
+// CREATE OVERLAY
+// =============================================
 
 .create-overlay {
   position: fixed;
@@ -199,6 +354,9 @@
   to { opacity: 1; }
 }
 
+// =============================================
+// DANGER WARNING
+// =============================================
 
 .danger-warning {
   background: rgba(40, 0, 0, 0.8);
@@ -228,43 +386,4 @@
 @keyframes dangerPulse {
   0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.1), inset 0 0 10px rgba(255, 0, 0, 0.1); border-color: #aa0000; }
   100% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.6), inset 0 0 30px rgba(255, 0, 0, 0.4); border-color: #ff3333; }
-}
-
-/* Quick Navigation Buttons */
-.quick-nav {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.quick-nav-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.75rem 1.5rem;
-  background: rgba(0, 200, 255, 0.04);
-  border: 1px solid rgba(0, 200, 255, 0.15);
-  border-radius: 8px;
-  color: rgba(180, 210, 230, 0.8);
-  text-decoration: none;
-  font-family: "Rajdhani", sans-serif;
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-.quick-nav-btn:hover {
-  color: #00c8ff;
-  background: rgba(0, 200, 255, 0.1);
-  border-color: rgba(0, 200, 255, 0.4);
-  box-shadow: 0 0 12px rgba(0, 200, 255, 0.15), inset 0 0 8px rgba(0, 200, 255, 0.05);
-  transform: translateY(-2px);
-}
-.qn-icon {
-  font-size: 1.1rem;
-}
-@media (max-width: 768px) {
-  .quick-nav { flex-direction: column; }
-  .quick-nav-btn { width: 100%; justify-content: center; }
 }
