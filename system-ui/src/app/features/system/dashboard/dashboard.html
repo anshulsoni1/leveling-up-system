@@ -1,69 +1,81 @@
-<div class="dashboard-wrapper">
-
-  <!-- System Header -->
-  <div class="system-header">
-    <h1 style="color: var(--system-cyan); text-shadow: 0 0 10px var(--system-cyan); margin: 0; letter-spacing: 2px; font-size: 1.8rem;">QUICK ACTIONS</h1>
-  </div>
-
-  <!-- Quick Navigation -->
-  <div class="quick-nav">
-    <a routerLink="/system/analytics" class="quick-nav-btn">
-      <span class="qn-icon">◈</span>
-      <span class="qn-label">Go to Analytics</span>
-    </a>
-    <a routerLink="/system/journal" class="quick-nav-btn">
-      <span class="qn-icon">◇</span>
-      <span class="qn-label">Open Journal</span>
-    </a>
-    <a routerLink="/system/profile" class="quick-nav-btn">
-      <span class="qn-icon">◎</span>
-      <span class="qn-label">View Profile</span>
-    </a>
-  </div>
-
-  <!-- Hunter Status Panel -->
-  <app-hunter-status-panel></app-hunter-status-panel>
-
-  <!-- Quest Panel (API-driven quests) -->
-  <app-quest-panel></app-quest-panel>
-
-  <!-- Boss Panel -->
-  <app-boss-panel></app-boss-panel>
-
-  <!-- Active Tasks Section -->
-  <div class="hud-panel active-tasks-section">
-    <div class="panel-header">
-      <h2 class="panel-title">ACTIVE TASKS</h2>
-      <div class="header-actions">
-        <a routerLink="/system/tasks" class="view-all-link">View All</a>
-        <a routerLink="/system/tasks" class="add-quest-btn glow-hover" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">+ NEW QUEST</a>
-      </div>
+<div class="dashboard-container">
+  
+  
+    <div class="strike strike-2">
+      
     </div>
-
-    <div class="quests-list">
-      <app-quest-item
-        *ngFor="let quest of quests().slice(0, 3)"
-        [quest]="quest"
-        (complete)="completeQuest($event)">
-      </app-quest-item>
-
-      <div *ngIf="quests().length > 3" class="tasks-footer">
-        <a routerLink="/system/tasks" class="view-all-tasks-btn">
-          View All Tasks ({{ quests().length }})
-        </a>
-      </div>
-
-      <app-empty-state *ngIf="quests().length === 0"
-        icon="⚔" title="NO ACTIVE TASKS DETECTED" subtitle="Start your journey — create your first quest"
-        ctaLabel="CREATE QUEST" (ctaClick)="toggleCreatePanel()"></app-empty-state>
+    <div class="strike strike-3">
+      
     </div>
   </div>
 
-  <!-- Quest Creation Overlay -->
-  <div class="create-overlay" *ngIf="showCreatePanel()">
-    <app-quest-create-panel
-      (create)="addQuest($event)"
-      (close)="toggleCreatePanel()">
-    </app-quest-create-panel>
+  <div class="dashboard-wrapper" style="position: relative; z-index: 2;">
+  
+    <!-- System Header -->
+    <div class="system-header">
+      <h1 style="color: var(--system-cyan); text-shadow: 0 0 10px var(--system-cyan); margin: 0; letter-spacing: 2px; font-size: 1.8rem;">QUICK ACTIONS</h1>
+    </div>
+  
+    <!-- Quick Navigation -->
+    <div class="quick-nav">
+      <a routerLink="/system/analytics" class="quick-nav-btn">
+        <span class="qn-icon">◈</span>
+        <span class="qn-label">Go to Analytics</span>
+      </a>
+      <a routerLink="/system/journal" class="quick-nav-btn">
+        <span class="qn-icon">◇</span>
+        <span class="qn-label">Open Journal</span>
+      </a>
+      <a routerLink="/system/profile" class="quick-nav-btn">
+        <span class="qn-icon">◎</span>
+        <span class="qn-label">View Profile</span>
+      </a>
+    </div>
+  
+    <!-- Hunter Status Panel -->
+    <app-hunter-status-panel></app-hunter-status-panel>
+  
+    <!-- Quest Panel (API-driven quests) -->
+    <app-quest-panel></app-quest-panel>
+  
+    <!-- Boss Panel -->
+    <app-boss-panel></app-boss-panel>
+  
+    <!-- Active Tasks Section -->
+    <div class="hud-panel active-tasks-section">
+      <div class="panel-header">
+        <h2 class="panel-title">ACTIVE TASKS</h2>
+        <div class="header-actions">
+          <a routerLink="/system/tasks" class="view-all-link">View All</a>
+          <a routerLink="/system/tasks" class="add-quest-btn glow-hover" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">+ NEW QUEST</a>
+        </div>
+      </div>
+  
+      <div class="quests-list">
+        <app-quest-item
+          *ngFor="let quest of quests().slice(0, 3)"
+          [quest]="quest"
+          (complete)="completeQuest($event)">
+        </app-quest-item>
+  
+        <div *ngIf="quests().length > 3" class="tasks-footer">
+          <a routerLink="/system/tasks" class="view-all-tasks-btn">
+            View All Tasks ({{ quests().length }})
+          </a>
+        </div>
+  
+        <app-empty-state *ngIf="quests().length === 0"
+          icon="⚔" title="NO ACTIVE TASKS DETECTED" subtitle="Start your journey — create your first quest"
+          ctaLabel="CREATE QUEST" (ctaClick)="toggleCreatePanel()"></app-empty-state>
+      </div>
+    </div>
+  
+    <!-- Quest Creation Overlay -->
+    <div class="create-overlay" *ngIf="showCreatePanel()">
+      <app-quest-create-panel
+        (create)="addQuest($event)"
+        (close)="toggleCreatePanel()">
+      </app-quest-create-panel>
+    </div>
   </div>
 </div>

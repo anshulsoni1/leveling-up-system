@@ -1,6 +1,57 @@
 @use '../../../shared/styles/system-theme' as *;
 
-// DASHBOARD WRAPPER — centered container
+.dashboard-container {
+  position: relative;
+  min-height: 100%;
+  overflow: hidden;
+  box-shadow: inset 0 0 100px rgba(0, 234, 255, 0.05);
+  background: linear-gradient(120deg, #020617, #0a0f1c);
+}
+
+/* Base Depth and Drifting Stars (Z-Index 0) */
+
+
+
+  100% { background-position: 200px 200px, 250px 250px, 300px 300px, 350px 350px, 100% 50%; }
+}
+
+/* Sharp Electric Sparks Layer (Z-Index 1) */
+.dashboard-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+
+  background:
+    radial-gradient(circle, #00ffff 1px, transparent 1.5px),
+    radial-gradient(circle, #00ffff 1px, transparent 1.5px),
+    radial-gradient(circle, #ffffff 0.8px, transparent 1.2px);
+
+  background-size: 120px 120px, 180px 180px, 220px 220px;
+  background-position: 0 0, 50px 100px, 100px 50px;
+
+  opacity: 0.6;
+
+  animation: particleDrift 20s linear infinite;
+}
+
+@keyframes particleDrift {
+  from {
+    background-position: 0 0, 50px 100px, 100px 50px;
+  }
+  to {
+    background-position: 200px 200px, 250px 300px, 300px 250px;
+  }
+}
+  94% { opacity: 1; }
+  95% { opacity: 0.3; }
+  96% { opacity: 1; }
+  97% { opacity: 0; }
+}
+
+/* Note: content (dashboard-wrapper) handles z-index 2 inline/below */
+
 .dashboard-wrapper {
   display: flex;
   flex-direction: column;
@@ -9,11 +60,8 @@
   margin: 0 auto;
   padding: 16px 20px;
   animation: slideUp 0.6s ease-out;
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  backdrop-filter: blur(4px); /* Creates the floating/hologram depth effect */
+  z-index: 10;
 }
 
 // =============================================
