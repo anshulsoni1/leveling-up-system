@@ -1,76 +1,93 @@
 <div class="dashboard-container">
   
-  
-    <div class="strike strike-2">
-      
-    </div>
-    <div class="strike strike-3">
-      
-    </div>
-  </div>
+  <div class="strike strike-2"></div>
+  <div class="strike strike-3"></div>
 
   <div class="dashboard-wrapper" style="position: relative; z-index: 2;">
   
-    <!-- System Header -->
     <div class="system-header">
       <h1 style="color: var(--system-cyan); text-shadow: 0 0 10px var(--system-cyan); margin: 0; letter-spacing: 2px; font-size: 1.8rem;">QUICK ACTIONS</h1>
     </div>
   
-    <!-- Quick Navigation -->
-    <div class="quick-nav">
-      <a routerLink="/system/analytics" class="quick-nav-btn">
-        <span class="qn-icon">◈</span>
-        <span class="qn-label">Go to Analytics</span>
-      </a>
-      <a routerLink="/system/journal" class="quick-nav-btn">
-        <span class="qn-icon">◇</span>
-        <span class="qn-label">Open Journal</span>
-      </a>
-      <a routerLink="/system/profile" class="quick-nav-btn">
-        <span class="qn-icon">◎</span>
-        <span class="qn-label">View Profile</span>
-      </a>
+    <div class="quick-nav holographic-panel">
+      <div class="particle-field">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 1.5s;"></div>
+        <div class="particle" style="left: 55%; animation-delay: 0.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 2.2s;"></div>
+      </div>
+
+      <svg class="energy-background" viewBox="0 0 800 100" preserveAspectRatio="none">
+        <path d="M-20,30 L100,20 L250,60 L400,40 L560,70 L700,10 L820,20" class="energy-path"></path>
+        <path d="M-20,70 L120,80 L280,30 L440,90 L620,40 L760,80 L820,70" class="energy-path"></path>
+        <path d="M-20,10 L160,40 L320,20 L480,60 L640,10 L820,30" class="energy-path"></path>
+      </svg>
+      
+      <div class="hud-content" style="display: flex; gap: 20px; width: 100%;">
+        <a routerLink="/system/analytics" class="quick-nav-btn">
+          <span class="qn-icon">◈</span>
+          <span class="qn-label">Go to Analytics</span>
+        </a>
+        <a routerLink="/system/journal" class="quick-nav-btn">
+          <span class="qn-icon">◇</span>
+          <span class="qn-label">Open Journal</span>
+        </a>
+        <a routerLink="/system/profile" class="quick-nav-btn">
+          <span class="qn-icon">◎</span>
+          <span class="qn-label">View Profile</span>
+        </a>
+      </div>
     </div>
   
-    <!-- Hunter Status Panel -->
     <app-hunter-status-panel></app-hunter-status-panel>
   
-    <!-- Quest Panel (API-driven quests) -->
     <app-quest-panel></app-quest-panel>
   
-    <!-- Boss Panel -->
     <app-boss-panel></app-boss-panel>
   
-    <!-- Active Tasks Section -->
-    <div class="hud-panel active-tasks-section">
-      <div class="panel-header">
-        <h2 class="panel-title">ACTIVE TASKS</h2>
-        <div class="header-actions">
-          <a routerLink="/system/tasks" class="view-all-link">View All</a>
-          <a routerLink="/system/tasks" class="add-quest-btn glow-hover" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">+ NEW QUEST</a>
-        </div>
+    <div class="hud-panel active-tasks-section holographic-panel">
+      <div class="particle-field">
+        <div class="particle" style="left: 15%; animation-delay: 0.2s;"></div>
+        <div class="particle" style="left: 45%; animation-delay: 1.8s;"></div>
+        <div class="particle" style="left: 75%; animation-delay: 0.9s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 2.5s;"></div>
       </div>
-  
-      <div class="quests-list">
-        <app-quest-item
-          *ngFor="let quest of quests().slice(0, 3)"
-          [quest]="quest"
-          (complete)="completeQuest($event)">
-        </app-quest-item>
-  
-        <div *ngIf="quests().length > 3" class="tasks-footer">
-          <a routerLink="/system/tasks" class="view-all-tasks-btn">
-            View All Tasks ({{ quests().length }})
-          </a>
+
+      <svg class="energy-background" viewBox="0 0 800 400" preserveAspectRatio="none">
+        <path d="M-20,100 L150,50 L300,300 L450,150 L600,350 L750,50 L820,100" class="energy-path"></path>
+        <path d="M-20,300 L180,350 L350,100 L550,400 L750,200 L820,300" class="energy-path"></path>
+        <path d="M-20,50 L200,200 L400,50 L600,250 L820,100" class="energy-path"></path>
+      </svg>
+
+      <div class="hud-content">
+        <div class="panel-header">
+          <h2 class="panel-title">ACTIVE TASKS</h2>
+          <div class="header-actions">
+            <a routerLink="/system/tasks" class="view-all-link">View All</a>
+            <a routerLink="/system/tasks" class="add-quest-btn glow-hover" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">+ NEW QUEST</a>
+          </div>
         </div>
-  
-        <app-empty-state *ngIf="quests().length === 0"
-          icon="⚔" title="NO ACTIVE TASKS DETECTED" subtitle="Start your journey — create your first quest"
-          ctaLabel="CREATE QUEST" (ctaClick)="toggleCreatePanel()"></app-empty-state>
+    
+        <div class="quests-list">
+          <app-quest-item
+            *ngFor="let quest of quests().slice(0, 3)"
+            [quest]="quest"
+            (complete)="completeQuest($event)">
+          </app-quest-item>
+    
+          <div *ngIf="quests().length > 3" class="tasks-footer">
+            <a routerLink="/system/tasks" class="view-all-tasks-btn">
+              View All Tasks ({{ quests().length }})
+            </a>
+          </div>
+    
+          <app-empty-state *ngIf="quests().length === 0"
+            icon="⚔" title="NO ACTIVE TASKS DETECTED" subtitle="Start your journey — create your first quest"
+            ctaLabel="CREATE QUEST" (ctaClick)="toggleCreatePanel()"></app-empty-state>
+        </div>
       </div>
     </div>
   
-    <!-- Quest Creation Overlay -->
     <div class="create-overlay" *ngIf="showCreatePanel()">
       <app-quest-create-panel
         (create)="addQuest($event)"

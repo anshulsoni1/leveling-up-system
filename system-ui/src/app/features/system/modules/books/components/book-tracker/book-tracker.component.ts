@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { BooksService } from '../../../../../../core/services/books.service';
+import { StatIntegrationService } from '../../../../../../core/services/stat-integration.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -187,6 +188,8 @@ interface BookData {
 })
 export class BookTrackerComponent implements OnInit {
   private booksService = inject(BooksService);
+  private statIntegration = inject(StatIntegrationService);
+  
   data: BookData = {
     currentBook: '',
     totalPages: null as unknown as number,
@@ -231,10 +234,22 @@ export class BookTrackerComponent implements OnInit {
   }
 
   saveToday() {
+    console.log('[BookTracker] saveToday clicked. Pages today:', this.pagesToday);
     if (this.pagesToday !== null && this.pagesToday >= 0) {
         const today = this.getTodayStr();
+        const oldVal = this.data.history[today] || 0;
+        const delta = this.pagesToday - oldVal;
+        
+        console.log(`[BookTracker] delta detected: ${delta} (old: ${oldVal}, new: ${this.pagesToday})`);
+        
         this.data.history[today] = this.pagesToday;
         this.saveProgress();
+        
+        if (delta > 0) {
+            this.statIntegration.logBookRead(delta);
+        } else {
+            console.log('[BookTracker] No positive delta, skipping stat update.');
+        }
     }
   }
 

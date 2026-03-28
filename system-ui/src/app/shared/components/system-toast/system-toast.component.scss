@@ -10,8 +10,8 @@
 }
 
 .system-toast {
-  background: rgba(10, 15, 30, 0.85);
-  backdrop-filter: blur(12px);
+  background: rgba(2, 6, 15, 0.65);
+  backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(0, 200, 255, 0.3);
   border-radius: 8px;
@@ -30,7 +30,7 @@
   align-items: center;
   gap: 1rem;
   position: relative;
-  z-index: 2;
+  z-index: 5;
 }
 
 .toast-icon {
@@ -84,6 +84,39 @@
   box-shadow: 0 0 15px rgba(255, 50, 50, 0.15);
   .toast-progress { background: linear-gradient(90deg, #ff3232, #aa0000); }
   .toast-message { text-shadow: 0 0 4px rgba(255, 50, 50, 0.5); }
+}
+
+
+.energy-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.6;
+  filter: drop-shadow(0 0 5px rgba(0, 234, 255, 0.4));
+}
+
+.energy-path {
+  fill: none;
+  stroke: rgba(0, 234, 255, 0.7);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  animation: flowEnergy 6s linear infinite;
+  
+  &:nth-child(1) { stroke-dasharray: 80 150; animation-duration: 4s; }
+  &:nth-child(2) { stroke-dasharray: 120 200; animation-duration: 7s; animation-direction: reverse; }
+  &:nth-child(3) { stroke-dasharray: 50 180; animation-duration: 5s; }
+  &:nth-child(4) { stroke-dasharray: 100 250; animation-duration: 9s; animation-direction: reverse; }
+  &:nth-child(5) { stroke-dasharray: 40 120; animation-duration: 3s; opacity: 0.4; }
+  &:nth-child(6) { stroke-dasharray: 60 140; animation-duration: 5s; animation-direction: reverse; opacity: 0.4; }
+}
+
+@keyframes flowEnergy {
+  from { stroke-dashoffset: 1000; }
+  to { stroke-dashoffset: 0; }
 }
 
 @keyframes slideIn {

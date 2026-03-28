@@ -87,11 +87,7 @@
 }
 
 .stat-card {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: rgba($bg-deep, 0.6);
+  background: rgba(3, 3, 5, 0.4);
   border-radius: 4px;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   backdrop-filter: blur(10px);
@@ -114,11 +110,8 @@
 }
 
 .quest-card {
-  padding: 16px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba($bg-deep, 0.5);
+  background: rgba(3, 3, 5, 0.3);
+  backdrop-filter: blur(8px);
   border-left: 3px solid $neon-cyan;
   
   &:hover {

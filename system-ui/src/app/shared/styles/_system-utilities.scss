@@ -6,17 +6,27 @@ html, body {
   padding: 0;
   border-radius: 0;
   /* overflow: hidden; Removed to fix scrolling */
-  background-color: #000000;
   color: $text-primary;
   min-height: 100vh;
+  
+  // Immersive Base Canvas
+  background-color: #030305;
+  background-image: 
+    radial-gradient(circle at 50% 50%, transparent 40%, rgba(3, 3, 5, 0.9) 120%),
+    linear-gradient(rgba(0, 234, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 234, 255, 0.04) 1px, transparent 1px),
+    radial-gradient(ellipse at 50% 0%, #0a1118 0%, #030305 80%);
+  
+  background-size: 100% 100%, 40px 40px, 40px 40px, 100% 100%;
+  background-position: center center, center top, center top, center center;
+  background-attachment: fixed;
 }
 
 // HUD Panel Style
 .hud-panel {
-  background-color: $panel-dark;
-  border: 1px solid $border-neon;
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
+  background: rgba(3, 3, 5, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 1rem;
   box-shadow: $glow-soft;
 }
@@ -31,10 +41,7 @@ html, body {
   box-shadow: inset $glow-soft;
 }
 
-.hud-grid {
 
-
-}
 
 // Glow & Neon Utilities
 .glow-text {
@@ -55,3 +62,67 @@ html, body {
   animation: glow-pulse 2s infinite alternate ease-in-out;
 }
 
+
+.holographic-panel {
+  background: rgba(2, 6, 15, 0.85); // Darker base to prevent bleed
+  backdrop-filter: blur(16px); // Stronger blur
+  border: 1px solid rgba(0, 234, 255, 0.25);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 0 20px rgba(0, 234, 255, 0.05),
+    inset 0 0 30px rgba(0, 234, 255, 0.03);
+
+  // Energy Particles (Flowing like water)
+  .particle-field {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: #00eaff;
+      border-radius: 50%;
+      opacity: 0;
+      animation: particleDrift 4s infinite linear;
+      filter: blur(0.5px);
+      box-shadow: 0 0 4px #00eaff;
+    }
+  }
+
+  .energy-background {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.4;
+    filter: drop-shadow(0 0 8px rgba(0, 234, 255, 0.5));
+  }
+
+  .energy-path {
+    fill: none;
+    stroke: rgba(0, 234, 255, 0.8);
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: zigzagFlow 8s linear infinite;
+    
+    &:nth-child(2n) { animation-duration: 12s; animation-direction: reverse; opacity: 0.6; }
+    &:nth-child(3n) { animation-duration: 6s; opacity: 0.8; stroke-width: 1.8; }
+  }
+}
+
+@keyframes zigzagFlow {
+  from { stroke-dashoffset: 1500; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes particleDrift {
+  0% { transform: translateY(100%) translateX(0); opacity: 0; }
+  20% { opacity: 0.6; }
+  80% { opacity: 0.4; }
+  100% { transform: translateY(-20%) translateX(20px); opacity: 0; }
+}

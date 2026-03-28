@@ -222,12 +222,27 @@ export class SystemStateService {
     this.syncStateToBackend();
   }
 
+  addAttributes(points: Partial<Attributes>) {
+    this.state.update((s) => {
+      const newAttr = { ...s.attributes };
+      if (points.strength) newAttr.strength = Number(newAttr.strength) + points.strength;
+      if (points.intelligence) newAttr.intelligence = Number(newAttr.intelligence) + points.intelligence;
+      if (points.discipline) newAttr.discipline = Number(newAttr.discipline) + points.discipline;
+      if (points.consistency) newAttr.consistency = Number(newAttr.consistency) + points.consistency;
+      return { ...s, attributes: newAttr };
+    });
+
+    // [API] Atomic sync
+    this.syncStateToBackend();
+  }
+
   setStateFromApi(data: any) {
     this.state.update(s => ({
       ...s,
       userName: data.displayName || data.email || s.userName,
       xp: data.xp || 0,
       level: data.level || 1,
+      attributes: data.attributes || s.attributes,
       quests: data.quests || s.quests,
     }));
   }

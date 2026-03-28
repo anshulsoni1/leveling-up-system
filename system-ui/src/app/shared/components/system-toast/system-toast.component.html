@@ -1,6 +1,16 @@
 <div class="toast-container">
   @for (toast of toasts; track toast.id) {
     <div class="system-toast" [class]="'toast-' + toast.type">
+
+      <!-- Animated Energy Flow Background -->
+      <svg class="energy-background" viewBox="0 0 400 100" preserveAspectRatio="none">
+        <path d="M-10,30 L50,20 L120,60 L200,40 L280,70 L350,10 L410,20" class="energy-path"></path>
+        <path d="M-10,70 L60,80 L140,30 L220,90 L310,40 L380,80 L410,70" class="energy-path"></path>
+        <path d="M-10,10 L80,40 L160,20 L240,60 L320,10 L410,30" class="energy-path"></path>
+        <path d="M-10,90 L100,50 L200,100 L300,60 L410,40" class="energy-path"></path>
+        <path d="M50,-10 L30,40 L70,80 L110,110" class="energy-path"></path>
+        <path d="M350,-10 L370,40 L330,80 L390,110" class="energy-path"></path>
+      </svg>
       <div class="toast-content">
         <span class="toast-icon">
           @if (toast.type === 'xp') {

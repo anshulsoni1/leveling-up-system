@@ -5,15 +5,10 @@
   min-height: 100%;
   overflow: hidden;
   box-shadow: inset 0 0 100px rgba(0, 234, 255, 0.05);
-  background: linear-gradient(120deg, #020617, #0a0f1c);
+  background: transparent;
 }
 
 /* Base Depth and Drifting Stars (Z-Index 0) */
-
-
-
-  100% { background-position: 200px 200px, 250px 250px, 300px 300px, 350px 350px, 100% 50%; }
-}
 
 /* Sharp Electric Sparks Layer (Z-Index 1) */
 .dashboard-container::after {
@@ -44,11 +39,6 @@
     background-position: 200px 200px, 250px 300px, 300px 250px;
   }
 }
-  94% { opacity: 1; }
-  95% { opacity: 0.3; }
-  96% { opacity: 1; }
-  97% { opacity: 0; }
-}
 
 /* Note: content (dashboard-wrapper) handles z-index 2 inline/below */
 
@@ -69,16 +59,7 @@
 // All major sections get 24px bottom margin
 // =============================================
 
-.system-header,
-app-hunter-status-panel,
-app-daily-quests,
-app-quest-panel,
-app-boss-panel,
-.modules-grid,
-app-module-templates,
-.custom-modules-section,
-.active-tasks-section,
-.quick-nav {
+.system-header, app-hunter-status-panel, app-daily-quests, app-quest-panel, app-boss-panel, .modules-grid, app-module-templates, .custom-modules-section, .active-tasks-section {
   display: block;
   margin-bottom: 24px;
 }
@@ -89,9 +70,11 @@ app-module-templates,
 
 .quick-nav {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   justify-content: center;
   flex-wrap: wrap;
+  padding: 1.5rem 1rem;
+  margin-bottom: 24px;
 }
 .quick-nav-btn {
   display: flex;
@@ -276,8 +259,8 @@ app-module-templates,
 // =============================================
 
 .active-tasks-section {
-  padding: 20px;
-  background: rgba($bg-deep, 0.4);
+  padding: 1.5rem 2rem;
+  margin-bottom: 24px;
 }
 
 .panel-header {
@@ -298,40 +281,55 @@ app-module-templates,
     display: flex;
     align-items: center;
     gap: 1.5rem;
-  }
 
-  .view-all-link {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: rgba($neon-cyan, 0.6);
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    transition: all 0.3s ease;
-    cursor: pointer;
+    .view-all-link {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: rgba($neon-cyan, 0.5);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      padding: 4px 8px;
+      border: 1px solid transparent;
 
-    &:hover {
-      color: $neon-cyan;
-      text-shadow: 0 0 8px rgba($neon-cyan, 0.4);
+      &:hover {
+        color: $neon-cyan;
+        border-color: rgba($neon-cyan, 0.3);
+        text-shadow: 0 0 10px rgba($neon-cyan, 0.5);
+        background: rgba($neon-cyan, 0.05);
+      }
     }
   }
 }
 
 .add-quest-btn {
   background: transparent;
-  border: 1px solid $neon-cyan;
+  border: 1.5px solid $neon-cyan;
   color: $neon-cyan;
-  padding: 0.6rem 1.2rem;
+  padding: 0.6rem 1.4rem;
   font-family: 'Orbitron', sans-serif;
   font-size: 0.85rem;
+  font-weight: 700;
   cursor: pointer;
-  background: rgba($neon-cyan, 0.05);
-  transition: all 0.3s ease;
-
+  letter-spacing: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
   &:hover {
-    background: rgba($neon-cyan, 0.2);
-    box-shadow: $glow-soft;
+    background: $neon-cyan;
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 234, 255, 0.6), 0 0 40px rgba(0, 234, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 
@@ -372,10 +370,7 @@ app-module-templates,
 }
 
 .empty-state {
-  text-align: center;
-  padding: 20px;
-  border: 1px dashed rgba($neon-cyan, 0.2);
-  background: rgba($bg-deep, 0.2);
+  background: rgba(3, 3, 5, 0.2);
 }
 
 // =============================================
