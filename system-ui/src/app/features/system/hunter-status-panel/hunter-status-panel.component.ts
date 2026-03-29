@@ -1,4 +1,5 @@
-import { Component, inject, computed, signal, AfterViewInit } from '@angular/core';
+import { Component, inject, computed, signal, AfterViewInit, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
@@ -6,11 +7,12 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { SystemStateService } from '../../../shared/services/system-state.service';
 import { BossService } from '../../../core/services/boss.service';
 import { XpEngineService } from '../../../core/services/xp-engine.service';
+import { XpProgressRingComponent } from './xp-progress-ring.component';
 
 @Component({
   selector: 'app-hunter-status-panel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, XpProgressRingComponent],
   template: `
     <div class="hunter-status-card holographic-panel" [ngClass]="statusState + '-state'">
       <!-- Moving Particle Layer -->
@@ -40,12 +42,12 @@ import { XpEngineService } from '../../../core/services/xp-engine.service';
                 <span class="rank-letter">{{ state.rank() }}</span>
                 <span class="rank-label">CLASS</span>
               </div>
+              <app-xp-progress-ring
+                [level]="state.level()"
+                [currentXp]="state.xp()"
+                [maxXp]="state.maxXp()">
+              </app-xp-progress-ring>
               <div class="info-primary">
-                <h2 class="level-display">LEVEL {{ state.level() }}</h2>
-                <div class="xp-details">
-                  <span class="xp-text">XP: {{ state.xp() }} / {{ state.maxXp() }}</span>
-                  <span class="xp-remaining">Next Level: {{ state.maxXp() - state.xp() }} XP remaining</span>
-                </div>
                 <div class="status-indicator">
                   <span class="status-text">{{ getStatusMessage() }}</span>
                 </div>
@@ -57,7 +59,7 @@ import { XpEngineService } from '../../../core/services/xp-engine.service';
           <!-- RIGHT COLUMN: System Core Radar Chart -->
           <div class="system-core-container">
             <div class="core-title">SYSTEM CORE</div>
-            <div class="radar-wrapper" [class.radar-active]="radarReady()">
+            <div class="radar-wrapper" [class.radar-active]="radarReady()" [class.radar-surge]="radarSurgeActive()">
               <svg class="radar-svg" viewBox="0 0 300 300">
                 <!-- Definitions: Glow Filters & Gradients -->
                 <defs>
@@ -165,6 +167,7 @@ import { XpEngineService } from '../../../core/services/xp-engine.service';
       padding: 32px 40px;
       min-height: 250px;
       border-radius: 8px;
+      overflow: visible !important; /* Allow tooltip to escape card bounds */
     }
     .hunter-status-card::before, .hunter-status-card::after {
       content: "";
@@ -186,8 +189,15 @@ import { XpEngineService } from '../../../core/services/xp-engine.service';
 
     .hud-content {
       position: relative;
-      z-index: 10;
+      z-index: 25; /* Above card pseudo-elements (z-index: 20) */
       background: transparent;
+    }
+
+    /* Clip decorative layers to card bounds while allowing tooltip to escape */
+    .hunter-status-card > .particle-field,
+    .hunter-status-card > .energy-background {
+      overflow: hidden;
+      border-radius: 8px;
     }
 
     /* ===== MAIN TWO-COLUMN LAYOUT ===== */
@@ -232,23 +242,7 @@ import { XpEngineService } from '../../../core/services/xp-engine.service';
       color: #fff;
       text-shadow: 0 0 15px #00eaff;
     }
-    .level-display {
-      font-size: 2.8rem;
-      font-weight: 900;
-      color: #fff;
-      margin: 0;
-      letter-spacing: 5px;
-      text-shadow: 0 0 20px rgba(0, 234, 255, 0.6);
-      line-height: 1;
-    }
-    .xp-details {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      margin: 10px 0;
-    }
-    .xp-text { color: #e9f6ff; font-weight: 700; letter-spacing: 1px; font-size: 0.95rem; }
-    .xp-remaining { color: #9fb7d6; font-size: 0.85rem; }
+    /* Level display and XP info now handled by XpProgressRingComponent */
     .status-indicator {
       display: flex;
       align-items: center;
@@ -472,6 +466,11 @@ import { XpEngineService } from '../../../core/services/xp-engine.service';
       .system-core-container { width: 200px; }
       .radar-wrapper { width: 200px; height: 200px; }
       .hunter-status-card { padding: 24px 20px; }
+      .hud-top-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
     }
   `]
 })
