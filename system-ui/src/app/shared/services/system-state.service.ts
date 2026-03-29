@@ -70,7 +70,7 @@ export class SystemStateService {
     quests: []
   });
   
-  private levelUpSubject = new Subject<{previous: number, current: number, rank: Rank}>();
+  private levelUpSubject = new Subject<{previous: number, current: number, rank: Rank, levelsGained: number}>();
   readonly levelUp$ = this.levelUpSubject.asObservable();
 
   readonly userName = computed(() => this.state().userName);
@@ -103,6 +103,33 @@ export class SystemStateService {
   }
 
   constructor() {
+  }
+
+
+  private triggerRootScreenPulse() {
+    const pulseLayer = document.createElement('div');
+    pulseLayer.style.position = 'fixed';
+    pulseLayer.style.inset = '0';
+    pulseLayer.style.background = 'radial-gradient(circle at center, rgba(0, 234, 255, 0.45) 0%, transparent 60%)';
+    pulseLayer.style.zIndex = '999999';
+    pulseLayer.style.pointerEvents = 'none';
+    pulseLayer.style.opacity = '0.35';
+    pulseLayer.style.transition = 'opacity 0.9s ease-out';
+    document.body.appendChild(pulseLayer);
+    
+    requestAnimationFrame(() => {
+      pulseLayer.style.opacity = '0';
+    });
+    
+    setTimeout(() => {
+      if (pulseLayer.parentNode) pulseLayer.parentNode.removeChild(pulseLayer);
+    }, 950);
+  }
+
+  private playLevelUpSound(multiplier: number) {
+    window.dispatchEvent(new CustomEvent('system-audio-sync', { 
+      detail: { track: 'level-up', multiplier } 
+    }));
   }
 
   addQuest(title: string, type: QuestType, difficulty: QuestDifficulty) {
@@ -146,13 +173,18 @@ export class SystemStateService {
         newMaxXp = multiplier * newLevel;
       }
 
-      if (newLevel > prevLevel) {
+      const levelsGained = newLevel - prevLevel;
+      if (levelsGained > 0) {
         setTimeout(() => {
-          this.toastService.show('LEVEL UP', 'level');
+          const msg = levelsGained > 1 ? `⚡ LEVEL UP x${levelsGained} — NEW POWER UNLOCKED` : '⚡ LEVEL UP — NEW POWER UNLOCKED';
+          this.toastService.show(msg, 'level');
+          this.triggerRootScreenPulse();
+          this.playLevelUpSound(levelsGained);
           this.levelUpSubject.next({
             previous: prevLevel,
             current: newLevel,
-            rank: this.getRankForLevel(newLevel)
+            rank: this.getRankForLevel(newLevel),
+            levelsGained
           });
         });
       }
@@ -209,10 +241,14 @@ export class SystemStateService {
         newLevel++;
         newMaxXp = multiplier * newLevel;
       }
-      if (newLevel > prevLevel) {
+      const levelsGained = newLevel - prevLevel;
+      if (levelsGained > 0) {
         setTimeout(() => {
-          this.toastService.show('LEVEL UP', 'level');
-          this.levelUpSubject.next({ previous: prevLevel, current: newLevel, rank: this.getRankForLevel(newLevel) });
+          const msg = levelsGained > 1 ? `⚡ LEVEL UP x${levelsGained} — NEW POWER UNLOCKED` : '⚡ LEVEL UP — NEW POWER UNLOCKED';
+          this.toastService.show(msg, 'level');
+          this.triggerRootScreenPulse();
+          this.playLevelUpSound(levelsGained);
+          this.levelUpSubject.next({ previous: prevLevel, current: newLevel, rank: this.getRankForLevel(newLevel), levelsGained });
         });
       }
       return { ...s, xp: newXp, level: newLevel, maxXp: newMaxXp };

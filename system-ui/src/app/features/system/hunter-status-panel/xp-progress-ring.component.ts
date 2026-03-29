@@ -18,7 +18,7 @@ const EVENT_EXPIRY_MS = 30 * 60 * 1000; // 30 minutes
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="level-up-screen-pulse" *ngIf="levelUpActive()"></div>
+    
     <div class="xp-ring-container"
          (mouseenter)="isHovered.set(true)"
          (mouseleave)="isHovered.set(false)"
@@ -171,6 +171,8 @@ const EVENT_EXPIRY_MS = 30 * 60 * 1000; // 30 minutes
           stroke-width="4"
           filter="url(#levelUpBloom)" />
 
+        <text *ngIf="levelUpActive() && levelsGained > 1" x="100" y="70" text-anchor="middle"
+          class="level-multi-text">x{{ levelsGained }}</text>
         <text x="100" y="90" text-anchor="middle"
           class="level-label-text">LVL</text>
         <text x="100" y="115" text-anchor="middle"
@@ -347,20 +349,9 @@ const EVENT_EXPIRY_MS = 30 * 60 * 1000; // 30 minutes
       letter-spacing: 4px;
     }
     
-    .level-up-screen-pulse {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at center, rgba(0, 234, 255, 0.4) 0%, transparent 70%);
-      z-index: 9999;
-      pointer-events: none;
-      animation: screenPulseFade 1s ease-out forwards;
-    }
-    @keyframes screenPulseFade {
-      0% { opacity: 0.3; }
-      100% { opacity: 0; }
-    }
+
     .burst-particle {
-      animation: burstOut 1s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+      animation: burstOut 0.8s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
       opacity: 0;
       transform-origin: center;
     }
@@ -368,8 +359,20 @@ const EVENT_EXPIRY_MS = 30 * 60 * 1000; // 30 minutes
       0% { transform: translate(0, 0) scale(0.5); opacity: 1; }
       100% { transform: translate(var(--tx), var(--ty)) scale(1.5); opacity: 0; }
     }
-    .level-up-flash .level-number-text {
-      animation: levelTextPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    .level-up-flash     .level-multi-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      fill: #00eaff;
+      animation: multiPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes multiPop {
+      0% { transform: scale(0.5); opacity: 0; }
+      40% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 8px rgba(0,234,255,0.8)); }
+    }
+    .level-number-text {
+      animation: levelTextPop 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       transform-origin: 100px 115px;
     }
     @keyframes levelTextPop {
@@ -498,6 +501,7 @@ export class XpProgressRingComponent implements OnInit, OnChanges, OnDestroy {
   isHovered = signal(false);
   surgeActive = signal(false);
   levelUpActive = signal(false);
+  levelsGained = 1;
   milestoneActive = signal(false);
 
   private prevXp = 0;
@@ -629,6 +633,7 @@ export class XpProgressRingComponent implements OnInit, OnChanges, OnDestroy {
     const levelChanged = changes['level'] && !changes['level'].firstChange;
 
     if (levelChanged && this.level > this.prevLevel) {
+      this.levelsGained = this.level - this.prevLevel;
       this.triggerLevelUp();
       this.prevLevel = this.level;
     }
